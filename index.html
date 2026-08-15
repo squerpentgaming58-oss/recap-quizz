@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Month 1 & 2 — Full Recap Quiz</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#241B12">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Recap Quiz">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#241B12;
+    --panel:#FFF9EC;
+    --panel-2:#FFF3D6;
+    --red:#E23F35;
+    --red-dim:#B23A2E;
+    --gold:#F2B705;
+    --gold-dim:#B58A05;
+    --green:#3F9142;
+    --blue:#2B6CB0;
+    --line: rgba(36,27,18,0.14);
+    --accent: var(--red);
+    --accent-dim: var(--red-dim);
+    --text: var(--ink);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 85% -10%, rgba(242,183,5,0.18), transparent 45%),
+      #FDE9A8;
+    color:var(--ink);
+    font-family:'Nunito',sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 14px;
+  }
+  .mono{font-family:'Nunito',sans-serif;}
+
+  .board{width:100%;max-width:560px;}
+
+  .header{
+    background:var(--ink);
+    border-bottom:none;
+    border-radius:16px 16px 0 0;
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .header .brand{display:flex;flex-direction:column;gap:2px;}
+  .brand .eyebrow{
+    font-size:11px;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;font-weight:700;
+  }
+  .brand .title{font-family:'Nunito',sans-serif;font-weight:800;font-size:20px;letter-spacing:0.01em;color:#FFF9EC;}
+  .gate{text-align:right;}
+  .gate .label{font-size:10px;letter-spacing:0.14em;color:var(--gold);font-weight:700;}
+  .gate .val{font-size:13px;font-weight:800;color:#FFF9EC;}
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:0;
+    padding:24px 22px 22px;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .progress-row{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;color:var(--red-dim);font-weight:800;
+    margin-bottom:14px;letter-spacing:0.03em;
+  }
+  .dots{display:flex;gap:4px;flex-wrap:wrap;max-width:230px;justify-content:flex-end;}
+  .dot{width:6px;height:6px;border-radius:50%;background:rgba(36,27,18,0.15);}
+  .dot.done{background:var(--green);}
+  .dot.current{background:var(--red);box-shadow:0 0 0 3px rgba(226,63,53,0.2);}
+
+  .timer-wrap{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+  .flap{
+    font-weight:800;font-size:26px;
+    background:var(--ink);color:var(--gold);border-radius:8px;padding:6px 12px;
+    min-width:52px;text-align:center;border:2px solid var(--ink);
+    transition:color 0.2s;
+  }
+  .flap.low{color:#FF8A7A;}
+  .timer-bar-bg{flex:1;height:6px;background:rgba(36,27,18,0.1);border-radius:4px;overflow:hidden;}
+  .timer-bar{height:100%;background:var(--red);width:100%;transition:width 1s linear, background 0.3s;}
+  .timer-bar.low{background:#FF8A7A;}
+
+  .section-tag{
+    display:inline-block;font-size:10px;font-weight:800;
+    letter-spacing:0.1em;text-transform:uppercase;color:#FFF9EC;
+    background:var(--red);padding:4px 10px;border-radius:100px;margin-bottom:12px;
+  }
+  .month-badge{
+    display:inline-block;font-size:9px;font-weight:800;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--ink);background:var(--gold);
+    padding:3px 8px;border-radius:100px;margin-bottom:12px;margin-left:6px;
+  }
+
+  .question{font-size:13px;color:var(--red-dim);margin-bottom:6px;letter-spacing:0.02em;font-weight:700;}
+  .question-word{font-family:'Nunito',sans-serif;font-size:23px;font-weight:700;margin-bottom:20px;line-height:1.35;}
+
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{
+    text-align:left;background:#FFFFFF;border:1px solid var(--line);
+    color:var(--ink);padding:13px 16px;border-radius:10px;font-size:14.5px;cursor:pointer;
+    font-family:'Nunito',sans-serif;font-weight:600;display:flex;align-items:center;gap:12px;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  }
+  .opt .letter{
+    font-size:12px;font-weight:800;color:var(--red-dim);
+    border:1px solid var(--line);border-radius:6px;width:22px;height:22px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .opt:hover:not(:disabled){border-color:var(--gold);background:#FFFCF2;}
+  .opt:active:not(:disabled){transform:scale(0.99);}
+  .opt:disabled{cursor:default;}
+  .opt.correct{border-color:var(--green);background:rgba(63,145,66,0.12);}
+  .opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green);}
+  .opt.wrong{border-color:var(--red);background:rgba(226,63,53,0.12);}
+  .opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red);}
+
+  .center-stack{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;}
+  h1.intro-title{font-family:'Nunito',sans-serif;font-size:23px;font-weight:800;margin:0;}
+  .intro-desc{color:var(--red-dim);font-size:13px;line-height:1.7;max-width:420px;font-weight:600;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:8px 0 4px;}
+  .stat{background:#FFFFFF;border:1px solid var(--line);border-radius:10px;padding:10px 16px;min-width:90px;}
+  .stat .num{font-family:'Nunito',sans-serif;font-size:22px;font-weight:800;color:var(--red);}
+  .stat .lab{font-size:10px;letter-spacing:0.1em;color:var(--red-dim);text-transform:uppercase;margin-top:2px;font-weight:700;}
+
+  .btn{
+    font-weight:800;letter-spacing:0.04em;
+    text-transform:uppercase;font-size:13px;background:var(--red);color:#FFF9EC;
+    border:none;padding:13px 26px;border-radius:10px;cursor:pointer;margin-top:6px;
+    transition: transform 0.1s, opacity 0.15s;
+  }
+  .btn:hover{opacity:0.92;}
+  .btn:active{transform:scale(0.98);}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);}
+
+  .credit-row{
+    display:flex;align-items:center;gap:10px;margin-top:16px;
+    padding:10px 14px;border-radius:12px;
+    background:#FFFFFF;border:1px solid var(--line);
+    max-width:340px;
+  }
+  .credit-avatar{
+    width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;
+    border:2px solid var(--gold);
+  }
+  .credit-text{text-align:left;line-height:1.4;}
+  .credit-name{font-size:11.5px;font-weight:800;color:var(--ink);}
+  .credit-source{font-size:10.5px;font-weight:700;color:var(--red-dim);}
+
+  .mode-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:4px;}
+  .mode-btn{
+    font-size:12px;font-weight:800;letter-spacing:0.02em;
+    background:#FFFFFF;color:var(--red-dim);border:1px solid var(--line);
+    padding:9px 14px;border-radius:100px;cursor:pointer;
+    transition:border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  .mode-btn.active{background:var(--red);color:#FFF9EC;border-color:var(--red);}
+  .mode-btn:hover:not(.active){border-color:var(--red-dim);}
+  .mode-btn.month-btn.active{background:var(--blue);border-color:var(--blue);}
+
+  /* per-day picker */
+  .day-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:8px;
+    margin-top:12px;width:100%;
+    max-height:280px;overflow-y:auto;padding-right:2px;
+  }
+  .day-btn{
+    background:#FFFFFF;border:1px solid var(--line);border-radius:10px;
+    padding:10px 12px;text-align:left;cursor:pointer;
+    font-family:'Nunito',sans-serif;
+    transition:border-color .15s, background .15s;
+  }
+  .day-btn:hover{border-color:var(--gold);}
+  .day-btn .dnum{font-weight:800;font-size:10.5px;color:var(--red-dim);letter-spacing:0.08em;text-transform:uppercase;}
+  .day-btn .dtitle{font-weight:700;font-size:13px;margin-top:2px;color:var(--ink);}
+  .day-btn .dcount{font-size:11px;color:rgba(36,27,18,0.55);margin-top:2px;font-weight:600;}
+  .day-btn.active{border-color:var(--red);background:rgba(226,63,53,0.08);}
+  .day-btn.active .dnum{color:var(--red);}
+
+  .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px;}
+  .match-col{display:flex;flex-direction:column;gap:8px;}
+  .match-item{
+    background:#FFFFFF;
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:11px 10px;
+    border-radius:9px;
+    font-size:12.5px;
+    font-weight:600;
+    font-family:'Nunito',sans-serif;
+    cursor:pointer;
+    text-align:left;
+    line-height:1.35;
+    transition:border-color .15s, background .15s, opacity .15s;
+  }
+  .match-item:hover:not(:disabled){border-color:var(--accent-dim);}
+  .match-item.selected{border-color:var(--accent);background:color-mix(in srgb, var(--accent) 14%, transparent);}
+  .match-item.correct{border-color:var(--green);background:color-mix(in srgb, var(--green) 18%, transparent);}
+  .match-item.wrong{border-color:var(--red);background:color-mix(in srgb, var(--red) 18%, transparent);}
+  .match-item:disabled{cursor:default;opacity:0.55;}
+
+  .essay-wrap{display:flex;flex-direction:column;gap:10px;margin-top:2px;}
+  .essay-input{
+    width:100%;
+    background:#FFFFFF;
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:13px 16px;
+    border-radius:10px;
+    font-size:16px;
+    font-family:'Nunito',sans-serif;
+    outline:none;
+  }
+  .essay-input:focus{border-color:var(--accent-dim);}
+  .essay-input.correct{border-color:var(--green);background:color-mix(in srgb, var(--green) 14%, transparent);}
+  .essay-input.wrong{border-color:var(--red);background:color-mix(in srgb, var(--red) 14%, transparent);}
+  .essay-feedback{
+    font-size:13px;font-weight:700;padding:10px 14px;border-radius:10px;margin-top:8px;
+  }
+  .essay-feedback.correct{color:var(--green);background:color-mix(in srgb, var(--green) 14%, transparent);border:1px solid var(--green);}
+  .essay-feedback.wrong{color:var(--red);background:color-mix(in srgb, var(--red) 14%, transparent);border:1px solid var(--red);}
+
+  .missed-list{
+    text-align:left;width:100%;margin-top:6px;display:flex;flex-direction:column;gap:8px;
+    max-height:220px;overflow-y:auto;padding-right:4px;
+  }
+  .missed-item{
+    background:rgba(226,63,53,0.07);border:1px solid rgba(226,63,53,0.28);border-radius:8px;
+    padding:9px 12px;font-size:12px;font-weight:600;
+    display:flex;justify-content:space-between;gap:10px;
+  }
+  .missed-item .id{color:var(--red-dim);}
+  .missed-item .ans{color:var(--green);font-weight:800;}
+
+  .reset-row{display:flex;justify-content:flex-end;margin-bottom:8px;}
+  .reset-btn{
+    font-size:11px;font-weight:800;letter-spacing:0.02em;
+    background:transparent;color:var(--accent-dim);
+    border:1px solid var(--line);
+    padding:5px 11px;border-radius:100px;cursor:pointer;
+    transition:border-color .15s, color .15s, background .15s;
+  }
+  .reset-btn:hover{border-color:var(--accent-dim);color:var(--accent);background:rgba(226,63,53,0.06);}
+
+  .credit-footer{
+    display:flex;align-items:center;gap:10px;
+    padding:12px 16px;margin-top:2px;
+    background:var(--ink);border-radius:0 0 16px 16px;
+    border-top:1px solid rgba(255,249,236,0.08);
+  }
+  .credit-avatar{
+    width:38px;height:38px;border-radius:50%;object-fit:cover;
+    border:2px solid var(--gold);flex-shrink:0;
+  }
+  .credit-text{text-align:left;line-height:1.4;}
+  .credit-name{font-size:11px;font-weight:800;color:#FFF9EC;}
+  .credit-sub{font-size:10.5px;font-weight:600;color:rgba(255,249,236,0.65);}
+  .credit-sub a{color:var(--gold);text-decoration:none;font-weight:800;}
+  .credit-sub a:hover{text-decoration:underline;}
+  .credit-sub .dot{margin:0 5px;opacity:0.6;}
+
+  .credit-box{
+    margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);
+    display:flex;align-items:center;gap:12px;text-align:left;width:100%;
+  }
+  .credit-avatar{
+    width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;
+    border:2px solid var(--gold);
+  }
+  .credit-text{display:flex;flex-direction:column;gap:2px;}
+  .credit-name{font-size:12.5px;font-weight:800;color:var(--ink);}
+  .credit-ig{font-size:11.5px;font-weight:700;color:var(--red-dim);text-decoration:none;}
+  .credit-ig:hover{text-decoration:underline;}
+  .credit-source{font-size:10.5px;color:rgba(36,27,18,0.6);font-weight:600;}
+
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+</style>
+</head>
+<body>
+
+<div class="board">
+  <div class="header">
+    <div class="brand">
+      <div class="eyebrow">LC Language Center · Basic Camp</div>
+      <div class="title">📖 Month 1 & 2 — Full Recap</div>
+    </div>
+    <div class="gate">
+      <div class="label">STATUS</div>
+      <div class="val" id="statusVal">OPEN BOOK</div>
+    </div>
+  </div>
+  <div class="card" id="card"></div>
+  <div class="credit-footer">
+    <img class="credit-avatar" src="creator.jpg" alt="Muhamad Rifki Maulana Ruhimat">
+    <div class="credit-text">
+      <div class="credit-name">Dibuat oleh Muhamad Rifki Maulana Ruhimat</div>
+      <div class="credit-sub">
+        <a href="https://instagram.com/rifkimaulana701" target="_blank" rel="noopener">@rifkimaulana701</a>
+        <span class="dot">·</span>
+        <span>Sumber materi: KILC</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= MONTH 1 DATA ================= */
+const m1ExprPhrasalRaw = [
+  ["Dia anak kesayangan ayah.","He is his father's apple.","Family"],
+  ["Saya anak kesayangan keluarga.","I am the golden child of the family.","Family"],
+  ["Patuhi kata orang tua.","Obey the words of an old timer.","Family"],
+  ["Jangan pilih kasih.","Don't play favorites.","Family"],
+  ["Sungguh-sungguh atau pulang.","Go hard or go home.","Family"],
+  ["Bergaul dengan baik","Get along","Family"],
+  ["Menyerupai","Take after","Family"],
+  ["Mengurus/menjaga","Look after","Family"],
+  ["Tumbuh dewasa","Grow up","Family"],
+  ["Berpisah","Split up","Family"],
+  ["Rumahku surgaku","Home sweet home","Parts of a House"],
+  ["Ada orang di rumah?","Anybody home?","Parts of a House"],
+  ["Datang duluan, dilayani duluan","First come, first served","Parts of a House"],
+  ["Anggap saja rumah sendiri.","Make yourself at home.","Parts of a House"],
+  ["Tiada tempat seperti rumah.","There's no place like home.","Parts of a House"],
+  ["Membersihkan","Clean up","Parts of a House"],
+  ["Menggantung","Hang up","Parts of a House"],
+  ["Menyalakan","Turn on","Parts of a House"],
+  ["Mematikan","Turn off","Parts of a House"],
+  ["Menyimpan","Put away","Parts of a House"],
+  ["Siapa didalam? Jangan lama lama.","Who's inside? Don't take too long.","Daily Activities"],
+  ["Tunggu bentar aku dah mau selesai.","Wait a minute, I'll be done soon.","Daily Activities"],
+  ["Cepetan donk.","Make it a little faster.","Daily Activities"],
+  ["Aku bisa telat nih.","I'll be late.","Daily Activities"],
+  ["Ini giliranku.","It's my turn.","Daily Activities"],
+  ["Menjemput","Pick up","Daily Activities"],
+  ["Datang ke","Come over","Daily Activities"],
+  ["Naik","Get on","Daily Activities"],
+  ["Turun","Get off","Daily Activities"],
+  ["Mengeluarkan","Take out","Daily Activities"],
+  ["Tabahkanlah hatimu.","Keep your chin up.","Irregular Verbs 1"],
+  ["Teruslah berusaha.","Keep it up.","Irregular Verbs 1"],
+  ["Ini membuatku heran.","It blows my mind.","Irregular Verbs 1"],
+  ["Hampir aja.","That was close.","Irregular Verbs 1"],
+  ["Kau membuatku takut.","You creep me out.","Irregular Verbs 1"],
+  ["Mengandalkan","Count on","Irregular Verbs 1"],
+  ["Menghindari","Get around","Irregular Verbs 1"],
+  ["Pulih dari","Get over","Irregular Verbs 1"],
+  ["Mengganggu","Pick on","Irregular Verbs 1"],
+  ["Makan di resto","Eat out","Irregular Verbs 1"],
+  ["Kita senasib.","We are in the same boat.","Transportation"],
+  ["Tidak begitu rumit.","It's not rocket science.","Transportation"],
+  ["Bensinku habis.","I'm out of gas.","Transportation"],
+  ["Boleh numpang gak?","Can I have a ride?","Transportation"],
+  ["Hari yang sibuk banget","A hectic day","Transportation"],
+  ["Berangkat","Set off","Transportation"],
+  ["Mengantarkan","See off","Transportation"],
+  ["Menurunkan","Drop off","Transportation"],
+  ["Lepas landas","Take off","Transportation"],
+  ["sampai","Get in","Transportation"],
+  ["Apakah kamu betah?","Do you feel at home?","Buildings and Places"],
+  ["Stop males-malesan.","Quit slacking.","Buildings and Places"],
+  ["Anterin pulang.","Take me home.","Buildings and Places"],
+  ["Saya setuju.","You can say that again.","Buildings and Places"],
+  ["Santai dan mengikuti apa yang terjadi.","Go with the flow.","Buildings and Places"],
+  ["Membangun","Build on","Buildings and Places"],
+  ["Memusnahkan","Wipe out","Buildings and Places"],
+  ["Meninggalkan","Check out","Buildings and Places"],
+  ["Mendaftar","Check in","Buildings and Places"],
+  ["Berkeliling","Get around","Buildings and Places"],
+  ["Dimana ATM terdekat?","Where is the nearest ATM?","Direction"],
+  ["Jangan halangi pandanganku.","Don't block my sight.","Direction"],
+  ["Tujuan anda berada disebelah kanan anda.","Your destination is on your right.","Direction"],
+  ["Nanti aku nyusul.","I'll catch you up later.","Direction"],
+  ["Mau kemana?","Where are you heading to?","Direction"],
+  ["Tanya sekitar","Ask around","Direction"],
+  ["Menanyakan seseorang","Ask after","Direction"],
+  ["Mengundang kembali","Ask back","Direction"],
+  ["Mengajak keluar","Ask out","Direction"],
+  ["Mengundang ke rumah","Ask over","Direction"],
+  ["Aku yang traktir.","It's on me.","Irregular Verbs 2"],
+  ["Hanya untuk jaga-jaga","Just in case","Irregular Verbs 2"],
+  ["Lega rasanya","What a relief","Irregular Verbs 2"],
+  ["Kebetulan sekali","What a coincidence","Irregular Verbs 2"],
+  ["Cuma gitu aja?","Just like that?","Irregular Verbs 2"],
+  ["Masuk akal","Add up","Irregular Verbs 2"],
+  ["Mengalah","Back down","Irregular Verbs 2"],
+  ["Putus","Break up","Irregular Verbs 2"],
+  ["Kepanasan","Burn up","Irregular Verbs 2"],
+  ["Menenangkan diri setelah marah","Calm down","Irregular Verbs 2"],
+  ["Dia sedang berangan-angan.","Her head is in the clouds.","Parts of a Body"],
+  ["Santai ajalah.","Let your hair down.","Parts of a Body"],
+  ["Aku hanya bercanda.","I'm pulling your leg.","Parts of a Body"],
+  ["Mereka membuatku marah.","They make my blood boil.","Parts of a Body"],
+  ["Liat aja nanti.","Play It by Ear.","Parts of a Body"],
+  ["Membersihkan","Wash up","Parts of a Body"],
+  ["Berolahraga","Work out","Parts of a Body"],
+  ["Menggosok","Rub in","Parts of a Body"],
+  ["Mengulurkan","Stretch out","Parts of a Body"],
+  ["Menjangkau","Reach out","Parts of a Body"],
+  ["Dia baik banget loh sama kita.","She is jolly good to us.","Personalities"],
+  ["Jangan buat gara-gara.","Don't burn your fingers.","Personalities"],
+  ["Jangan diambil hati.","Don't take it personally.","Personalities"],
+  ["Jangan jadi pengecut deh.","Don't be a chicken.","Personalities"],
+  ["Dia musuh dalam selimut.","He is snake in the grass.","Personalities"],
+  ["Menyelesaikan","Settle down","Personalities"],
+  ["Meringankan","Lighten up","Personalities"],
+  ["Berlatih","Shape up","Personalities"],
+  ["Menenangkan","Cool off","Personalities"],
+  ["Menghibur","Cheer up","Personalities"],
+  ["Apa yang sedang kamu pakai?","What are you wearing?","Clothes"],
+  ["Pamanku memakai dasi ke kantornya.","My uncle is wearing tie to his office.","Clothes"],
+  ["Warna itu bagus buat kamu.","That color looks nice on you.","Clothes"],
+  ["Topi nya ayahku berwarna merah.","The color of my father's cap is red.","Clothes"],
+  ["Aksesoris apa yang ingin kamu beli?","What accessories would you like to buy?","Clothes"],
+  ["Berpakaian","Dress up","Clothes"],
+  ["Menyetrika","Iron out","Clothes"],
+  ["Mencoba","Try on","Clothes"],
+  ["Menggulung","Roll up","Clothes"],
+  ["Membuka/memakai baju","Slip into","Clothes"],
+  ["Nah mulai lagi deh.","Here we go again.","Irregular Verbs 3"],
+  ["Masih bangun?","Still up?","Irregular Verbs 3"],
+  ["Aku gak tahan lagi.","I can't stand anymore.","Irregular Verbs 3"],
+  ["Kamu dipihak mana?","Whose side are you on?","Irregular Verbs 3"],
+  ["Aku berada di pihakmu.","I'm on your side.","Irregular Verbs 3"],
+  ["Mundur","Back off","Irregular Verbs 3"],
+  ["Membuat cadangan","Back up","Irregular Verbs 3"],
+  ["Bersabar","Bear with","Irregular Verbs 3"],
+  ["Meledakkan","Blow up","Irregular Verbs 3"],
+  ["Rusak","Break down","Irregular Verbs 3"],
+  ["Dia bahagia sekali.","She is over the moon.","Feelings and Emotions"],
+  ["Aku capek.","I am worn out.","Feelings and Emotions"],
+  ["Kamu terlihat sangat galau.","You look so gloomy.","Feelings and Emotions"],
+  ["Apa yang membuatmu marah?","What makes you angry?","Feelings and Emotions"],
+  ["Suasana hatiku senang sepanjang waktu.","I've been in a good mood all the time.","Feelings and Emotions"],
+  ["Santai/tenang","Calm down","Feelings and Emotions"],
+  ["Memahami","Take in","Feelings and Emotions"],
+  ["Menahan","Hold back","Feelings and Emotions"],
+  ["Menunda","Put off","Feelings and Emotions"],
+  ["Ambil atau tinggalkan.","Take it or leave it.","Promotion"],
+  ["Apa imbalannya?","What will I get for this?","Promotion"],
+  ["Beli satu gratis satu.","Buy one get one free.","Promotion"],
+  ["Aku sudah memutuskan.","I've already made up my mind.","Promotion"],
+  ["Sepertinya menyenangkan.","That sounds like a fun.","Promotion"],
+  ["Maju","Get ahead","Promotion"],
+  ["Dipromosikan","Move up","Promotion"],
+  ["Mutasi","Move into","Promotion"],
+  ["Melangkah","Step up","Promotion"],
+  ["Bekerja (menghasilkan lebih)","Work up","Promotion"],
+  ["Mahal sekali harganya.","That's a rip-off!","Shopping"],
+  ["Murah sekali harganya!","That's dirt cheap!","Shopping"],
+  ["Bisa bayar pakai kartu kredit atau uang cash?","Can I pay by credit card / in cash?","Shopping"],
+  ["Aku yang bayar.","It's on me.","Shopping"],
+  ["Berapa harganya?","How much does it run?","Shopping"],
+  ["Mencari","Look for","Shopping"],
+  ["Memilih","Pick out","Shopping"],
+  ["Menyimpan persediaan","Stock up","Shopping"],
+  ["Membeli habis","Buy up","Shopping"],
+  ["Habis terjual","Sell out","Shopping"],
+  ["Kamu perusak suasana.","You are a party-pooper.","Irregular Verbs 4"],
+  ["Kamu masih ingusan.","You are still blue.","Irregular Verbs 4"],
+  ["Ayo cari makan.","Let's grab a bite.","Irregular Verbs 4"],
+  ["Kamu kehilangan kesempatan.","You miss the boat.","Irregular Verbs 4"],
+  ["Langkahi dulu mayatku.","Over my dead body.","Irregular Verbs 4"],
+  ["Masuk secara paksa","Break in","Irregular Verbs 4"],
+  ["Membesarkan","Bring up","Irregular Verbs 4"],
+  ["Memperbaiki","Brush up","Irregular Verbs 4"],
+  ["Membangun","Build up","Irregular Verbs 4"],
+  ["Membakar habis","Burn down","Irregular Verbs 4"],
+  ["Menjadi","become – became – become","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Memulai","begin – began – begun","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Mematahkan","break – broke – broken","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Membawa","bring – brought – brought","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Membangun","build – built – built","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Membeli","buy – bought – bought","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Memilih","choose – chose – chosen","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Datang","come – came – come","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Memotong","cut – cut – cut","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Melakukan","do – did – done","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Menggambar","draw – drew – drawn","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Mengemudi","drive – drove – driven","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Terjatuh","fall – fell – fallen","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Merasakan","feel – felt – felt","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Menemukan","find – found – found","Irregular Verbs 1 (V1-V2-V3)"],
+  ["Mendapatkan","get – got – got","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Memberikan","give – gave – given","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Pergi","go – went – gone","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Tumbuh","grow – grew – grown","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Menggiling","grind – ground – ground","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Menggantung","hang – hung – hung","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Memiliki","have – had – had","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Mendengarkan","hear – heard – heard","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Menyembunyikan","hide – hid – hidden","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Memukul","hit – hit – hit","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Memasukkan","input – input – input","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Mengambil","take – took – taken","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Menyimpan","keep – kept – kept","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Mengetahui","know – knew – known","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Merajut","knit – knit – knit","Irregular Verbs 2 (V1-V2-V3)"],
+  ["Meletakkan","lay – laid – laid","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Memimpin","lead – led – led","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Meninggalkan","leave – left – left","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Meminjamkan","lend – lent – lent","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Membiarkan","let – let – let","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Berbaring","lie – lay – lain","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Menyalakan","light – lit – lit","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Kehilangan","lose – lost – lost","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Membuat","make – made – made","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Berarti","mean – meant – meant","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Bertemu","meet – met – met","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Salah meletakkan","mislay – mislaid – mislaid","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Menyesatkan","mislead – misled – misled","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Salah","mistake – mistook – mistaken","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Salah mengerti","misunderstand – misunderstood – misunderstood","Irregular Verbs 3 (V1-V2-V3)"],
+  ["Mengatasi","overcome – overcame – overcome","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Menarik uang melebihi saldo","overdraw – overdrew – overdrawn","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Berlebihan","overdo – overdid – overdone","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Makan berlebihan","overeat – overate – overeaten","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Mendengar secara tidak sengaja","overhear – overheard – overheard","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Menyalip","overtake – overtook – overtaken","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Mengesampingkan","override – overrode – overridden","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Membayar","pay – paid – paid","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Membuktikan","prove – proved – proven","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Berhenti","quit – quit – quit","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Membaca","read – read – read","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Mengendarai","ride – rode – ridden","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Berdering","ring – rang – rung","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Bangkit","rise – rose – risen","Irregular Verbs 4 (V1-V2-V3)"],
+  ["Berlari","run – ran – run","Irregular Verbs 4 (V1-V2-V3)"]
+];
+const m1VocabRaw = [
+  ["Ayah","Father","Family"],["Ibu","Mother","Family"],["Orang tua","Parents","Family"],
+  ["Anak laki-laki","Son","Family"],["Anak perempuan","Daughter","Family"],["Kakek","Grandfather","Family"],
+  ["Nenek","Grandmother","Family"],["Kakek dan Nenek","Grandparents","Family"],["Cucu","Grandchild","Family"],
+  ["Cucu laki-laki","Grandson","Family"],["Cucu Perempuan","Granddaughter","Family"],["Anak cucu","Posterity","Family"],
+  ["Saudara laki-laki","Brother","Family"],["Saudara perempuan","Sister","Family"],["Saudara","Sibling","Family"],
+  ["Kakak/yang lebih tua","Older/elder","Family"],["Adik/yang lebih muda","Younger","Family"],["Tante","Aunt","Family"],
+  ["Paman/om","Uncle","Family"],["Sepupu","Cousin","Family"],["Keponakan laki-laki","Nephew","Family"],
+  ["Keponakan perempuan","Niece","Family"],["Keluarga besar","...-In-law","Family"],["Ayah kandung","Birth Father","Family"],
+  ["Ibu tiri","Step Mother","Family"],["Anak Angkat","Foster child","Family"],["Suami","Husband","Family"],
+  ["Istri","Wife","Family"],["Tuan rumah","Host","Family"],["Rumah tangga","Household","Family"],
+  ["Ibu rumah tangga","House-wife","Family"],["Laki-laki","Male","Family"],["Perempuan","Female","Family"],
+  ["Pasutri","Spouse","Family"],["Yatim piatu","Orphan","Family"],["Leluhur","Ancestor","Family"],
+  ["Kerabat sedarah","Blood relative","Family"],["Keturunan","Descendant","Family"],["Keluarga besar","Extended family","Family"],
+  ["Sanak saudara","Kin","Family"],
+  ["Rumah","House/Home","Parts of a House"],["Rumah tangga","Household","Parts of a House"],["Pembantu","Housemaid","Parts of a House"],
+  ["Ruang tamu","Living room","Parts of a House"],["Ruang makan","Dining room","Parts of a House"],["Ruang tunggu","Waiting room","Parts of a House"],
+  ["Kamar tidur","Bedroom","Parts of a House"],["Kamar mandi","Bathroom","Parts of a House"],["Kamar pas","Fitting room","Parts of a House"],
+  ["Toilet","Toilet/Restroom","Parts of a House"],["Dapur","Kitchen","Parts of a House"],["Halaman","Yard","Parts of a House"],
+  ["Beranda","Veranda","Parts of a House"],["Garasi","Garage","Parts of a House"],["Gudang","Warehouse","Parts of a House"],
+  ["Lantai","Floor","Parts of a House"],["Pintu","Door","Parts of a House"],["Daun pintu","Shutter","Parts of a House"],
+  ["Jendela","Window","Parts of a House"],["Gagang pintu","Doorknob","Parts of a House"],["Keset","Doormat","Parts of a House"],
+  ["Kaca jendela","Windowpane","Parts of a House"],["Kunci","Key","Parts of a House"],["Lubang kunci","Keyhole","Parts of a House"],
+  ["Gembok","Lock","Parts of a House"],["Lemari gantung","Closet","Parts of a House"],["Engsel","Hinge","Parts of a House"],
+  ["Tiang","Pillar","Parts of a House"],["Sumur","Well","Parts of a House"],["Dinding","Wall","Parts of a House"],
+  ["Langit-langit","Ceiling","Parts of a House"],["Ventilasi","Ventilation","Parts of a House"],["Gorden","Curtain","Parts of a House"],
+  ["Talang","Gutter","Parts of a House"],["Atap","Roof","Parts of a House"],["Genteng","Roof tile","Parts of a House"],
+  ["Ubin","Tile","Parts of a House"],["Loteng","Attic","Parts of a House"],["Lantai dasar","Basement","Parts of a House"],
+  ["Cerobong asap","Chimney","Parts of a House"],
+  ["Bangun","Wake up","Daily Activities"],["Bangkit","Get up","Daily Activities"],["Ke kamar mandi","Go to the bathroom","Daily Activities"],
+  ["Cuci muka","Wash my face","Daily Activities"],["Sikat gigi","Brush my teeth","Daily Activities"],["Berwudhu","Take ablution","Daily Activities"],
+  ["Berdo'a/Beribadah","Pray","Daily Activities"],["Mandi","Take a bath/take a shower","Daily Activities"],["BAK","Take a pee","Daily Activities"],
+  ["BAB","Take a bowel/dump","Daily Activities"],["Mempersiapkan","Prepare","Daily Activities"],["Menyisir","Brush my hair","Daily Activities"],
+  ["Memakai","Put on","Daily Activities"],["Melepaskan","Take off","Daily Activities"],["Memakai baju","Get dressed","Daily Activities"],
+  ["Merapikan kasur","Make my bed","Daily Activities"],["Membersihkan rumah","Clean the house","Daily Activities"],["Sarapan","Have breakfast","Daily Activities"],
+  ["Makan siang","Have lunch","Daily Activities"],["Makan malam","Have dinner","Daily Activities"],["Mencuci piring","Wash/do the dishes","Daily Activities"],
+  ["Mencuci pakaian","Do the laundry","Daily Activities"],["Pergi ke sekolah","Go to school","Daily Activities"],["Belajar","Study","Daily Activities"],
+  ["Mengerjakan PR","Do my homework","Daily Activities"],["Pulang ke rumah","Come home/get home","Daily Activities"],["Tidur siang","Take a nap","Daily Activities"],
+  ["Kesiangan","Oversleep","Daily Activities"],["Ketiduran","Fall asleep","Daily Activities"],["Istirahat","Take a rest","Daily Activities"],
+  ["Jalan-jalan","Hang around","Daily Activities"],["Nongkrong","Hang out","Daily Activities"],["Berolahraga","Have an exercise","Daily Activities"],
+  ["Menyetrika","Iron","Daily Activities"],["Memasak","Cook","Daily Activities"],["Membeli makan","Buy a meal","Daily Activities"],
+  ["Berbelanja","Shop","Daily Activities"],["Menonton TV","Watch TV","Daily Activities"],["Mendengarkan musik","Listen to the music","Daily Activities"],
+  ["Tidur (malam)","Go to sleep/bed","Daily Activities"],
+  ["Ambulans","Ambulance","Transportation"],["Sepeda","Bicycle","Transportation"],["Bis","Bus","Transportation"],
+  ["Mobil","Car","Transportation"],["Delman","Carriage","Transportation"],["Gerobak","Cart","Transportation"],
+  ["Mobil listrik","Electric Car","Transportation"],["Mobil pemadam kebakaran","Fire Engine","Transportation"],["Sepeda motor","Motorcycle","Transportation"],
+  ["Sepeda gunung","Mountain Bike","Transportation"],["Transportasi daring","Online Transportation","Transportation"],["Becak","Pedicab","Transportation"],
+  ["Bis sekolah","School Bus","Transportation"],["Kereta bawah tanah","Subway","Transportation"],["Taksi","Taxi","Transportation"],
+  ["Kereta listrik","Tram","Transportation"],["Kereta api","Train","Transportation"],["Truk","Truck","Transportation"],
+  ["Kapal tongkang","Barge","Transportation"],["Perahu","Boat","Transportation"],["Sekoci","Lifeboat","Transportation"],
+  ["Kapal","Ship","Transportation"],["Kapal selam","Submarine","Transportation"],["Kapal pesiar","Yacht","Transportation"],
+  ["Pesawat","Airplane","Transportation"],["Pesawat kargo","Cargo Aircraft","Transportation"],["Balon udara","Hot-air Ballon","Transportation"],
+  ["Pesawat luar angkasa","Spacecraft","Transportation"],["Pengemudi","Driver","Transportation"],["SIM (Surat Izin Mengemudi)","Driver's License","Transportation"],
+  ["Ongkos","Fare","Transportation"],["Ban bocor","Flat Tire","Transportation"],["Klakson","Horn","Transportation"],
+  ["Penumpang","Passenger","Transportation"],["Sabuk Pengaman","Seat Belt","Transportation"],["Ban","Tire","Transportation"],
+  ["Kendaraan","Vehicle","Transportation"],["BPKB","Vehicle Ownership Documents","Transportation"],["STNK","Vehicle Registration Certificate","Transportation"],
+  ["Roda","Wheel","Transportation"],
+  ["Bandara","Airport","Buildings and Places"],["Bank","Bank","Buildings and Places"],["Pantai","Beach","Buildings and Places"],
+  ["Toko buku","Bookstore","Buildings and Places"],["Terminal","Bus station","Buildings and Places"],["Halte","Bus stop","Buildings and Places"],
+  ["Toko daging","Butchery","Buildings and Places"],["Kafe","Café","Buildings and Places"],["Gereja","Church","Buildings and Places"],
+  ["Apotek","Drugstore","Buildings and Places"],["Toserba","Department store","Buildings and Places"],["Asrama","Dormitory","Buildings and Places"],
+  ["Toko ikan","Fishmonger","Buildings and Places"],["Hutan","Forest","Buildings and Places"],["Pujasera","Food court","Buildings and Places"],
+  ["Kebun","Garden","Buildings and Places"],["Pom bensin/ SPBU","Gas station","Buildings and Places"],["Pelabuhan","Harbor","Buildings and Places"],
+  ["Rumah sakit","Hospital","Buildings and Places"],["Penginapan","Inn","Buildings and Places"],["Toko perhiasan","Jewelry store","Buildings and Places"],
+  ["Hutan rimba","Jungle","Buildings and Places"],["Danau","Lake","Buildings and Places"],["Perpustakaan","Library","Buildings and Places"],
+  ["Masjid","Mosque","Buildings and Places"],["Gunung","Mountain","Buildings and Places"],["Taman","Park","Buildings and Places"],
+  ["Toko hewan","Pet shop","Buildings and Places"],["Kantor polisi","Police station","Buildings and Places"],["Stasiun","Railway station","Buildings and Places"],
+  ["Rumah makan","Restaurant","Buildings and Places"],["Cagar alam","Sanctuary","Buildings and Places"],["Gedung olahraga","Sport Center","Buildings and Places"],
+  ["Warung makan","Stall","Buildings and Places"],["Toko ATK","Stationery shop","Buildings and Places"],["Candi","Temple","Buildings and Places"],
+  ["Menara","Tower","Buildings and Places"],["Pasar tradisional","Traditional market","Buildings and Places"],["Air terjun","Water fall","Buildings and Places"],
+  ["Air mancur","Water fountain","Buildings and Places"],
+  ["Disebrang","Across","Direction"],["Diantara (>2)","Among","Direction"],["Disekitar","Around","Direction"],
+  ["Di sudut","At the corner of","Direction"],["Dibelakang","Behind","Direction"],["Disebelah","Beside","Direction"],
+  ["Diantara (2)","Between","Direction"],["Didepan","In front of","Direction"],["Di sebelah (pas)","Next to","Direction"],
+  ["Dekat","Near","Direction"],["Berlawanan","Opposite","Direction"],["Menyebrang","Cross","Direction"],
+  ["Menghadap","Face","Direction"],["Jalan Lurus","Go straight","Direction"],["Menyalip","Overtake","Direction"],
+  ["Melewati","Pass","Direction"],["Putar Balik","Turn back","Direction"],["Belok Kiri","Turn left","Direction"],
+  ["Belok Kanan","Turn right","Direction"],["Gang","Alley","Direction"],["Tikungan","Bend","Direction"],
+  ["Simpang 4","Cross road","Direction"],["Jalan Buntu","Dead end street","Direction"],["Turunan","Downhill","Direction"],
+  ["Simpang 5","Five intersection","Direction"],["Jalan Tol","Highway","Direction"],["Jalan Searah","One-way traffic","Direction"],
+  ["Jembatan Penyeberangan","Overpass","Direction"],["Jalan Pintas","Shortcut","Direction"],["Trotoar","Sidewalk","Direction"],
+  ["Polisi Tidur","Speed bump","Direction"],["Jalan","Street","Direction"],["Simpang 3","T-junction","Direction"],
+  ["Pulang Pergi","Take a round trip","Direction"],["Gang Kecil","Tiny path","Direction"],["Macet","Traffic jam","Direction"],
+  ["Lampu Lalin","Traffic light","Direction"],["Terowongan","Tunnel","Direction"],["Jalur Penyeberangan","Zebra crossing","Direction"],
+  ["Tersesat","Misguided","Direction"],
+  ["Kepala","Head","Parts of a Body"],["Rambut","Hair","Parts of a Body"],["Dahi","Forehead","Parts of a Body"],
+  ["Wajah","Face","Parts of a Body"],["Mata","Eyes","Parts of a Body"],["Alis","Eyebrows","Parts of a Body"],
+  ["Bulu mata","Eyelashes","Parts of a Body"],["Kelopak mata","Eyelids","Parts of a Body"],["Telinga","Ears","Parts of a Body"],
+  ["Hidung","Nose","Parts of a Body"],["Lubang hidung","Nostrils","Parts of a Body"],["Pipi","Cheeks","Parts of a Body"],
+  ["Mulut","Mouth","Parts of a Body"],["Bibir","Lips","Parts of a Body"],["Gigi","Tooth/teeth","Parts of a Body"],
+  ["Lidah","Tongue","Parts of a Body"],["Dagu","Chin","Parts of a Body"],["Kumis","Mustache","Parts of a Body"],
+  ["Rahang","Jaw","Parts of a Body"],["Leher","Neck","Parts of a Body"],["Tenggorokan","Throat","Parts of a Body"],
+  ["Jakun","Adam's apple","Parts of a Body"],["Punggung","Back","Parts of a Body"],["Bahu","Shoulder","Parts of a Body"],
+  ["Dada","Chest","Parts of a Body"],["Ketiak","Armpits","Parts of a Body"],["Lengan","Arms","Parts of a Body"],
+  ["Siku","Elbows","Parts of a Body"],["Jari tangan","Fingers","Parts of a Body"],["Kuku","Nails","Parts of a Body"],
+  ["Tangan","Hands","Parts of a Body"],["Pergelangan tangan","Wrists","Parts of a Body"],["Pinggang","Waist","Parts of a Body"],
+  ["Paha","Thighs","Parts of a Body"],["Lutut","Knees","Parts of a Body"],["Betis","Calf/ves","Parts of a Body"],
+  ["Kaki","Legs","Parts of a Body"],["Pergelangan kaki","Ankles","Parts of a Body"],["Jari kaki","Toes","Parts of a Body"],
+  ["Otot","Muscle","Parts of a Body"],
+  ["Pandai","Clever","Personalities"],["Dermawan","Generous","Personalities"],["Sopan","Polite","Personalities"],
+  ["Mudah bergaul","Sociable","Personalities"],["Rajin","Diligent","Personalities"],["Hemat","Thrifty","Personalities"],
+  ["Bijaksana","Wise","Personalities"],["Lembut","Gentle","Personalities"],["Sabar","Patient","Personalities"],
+  ["Berbakat","Talented","Personalities"],["Rendah hati","Humble","Personalities"],["Taat agama","Pious","Personalities"],
+  ["Ramah","Friendly","Personalities"],["Tanggung jawab","Responsible","Personalities"],["Tenang","Peaceful","Personalities"],
+  ["Jujur","Honest","Personalities"],["Berani","Brave","Personalities"],["Optimis","Optimistic","Personalities"],
+  ["Tulus","Sincere","Personalities"],["Percaya diri","Confident","Personalities"],["Sadis","Sadistic","Personalities"],
+  ["Sombong","Arrogant","Personalities"],["Tukang perintah","Bossy","Personalities"],["Tidak sopan","Impolite","Personalities"],
+  ["Konyol","Silly","Personalities"],["Pelit","Stingy","Personalities"],["Pengecut","Coward","Personalities"],
+  ["Tenang","Calm","Personalities"],["Rakus/serakah","Greedy","Personalities"],["Manja","Spoiled","Personalities"],
+  ["Jahat","Cruel","Personalities"],["Cerewet","Fussy","Personalities"],["Keras kepala","Stubborn","Personalities"],
+  ["Menjengkelkan","Annoying","Personalities"],["Malas","Lazy","Personalities"],["Canggung","Clumsy","Personalities"],
+  ["Pemalu","Shy","Personalities"],["Pelupa","Forgetful","Personalities"],["Pendendam","Grudging","Personalities"],
+  ["Pemarah","Grumpy","Personalities"],
+  ["Jas","Coat","Clothes"],["Gaun","Dress","Clothes"],["Jaket","Jacket","Clothes"],
+  ["Mantel","Mantle","Clothes"],["Piyama","Pajamas","Clothes"],["Kaos lengan panjang","Pullover","Clothes"],
+  ["Jas hujan","Raincoat","Clothes"],["Kaos","Shirt","Clothes"],["Kaos","T-shirt","Clothes"],
+  ["Baju setelan","Suit","Clothes"],["Switer","Sweater","Clothes"],["Pakaian dalam","Underclothes","Clothes"],
+  ["Kaos dalam","Undershirt","Clothes"],["Seragam","Uniform","Clothes"],["Rompi","Vest","Clothes"],
+  ["Celana (Ame)","Pants","Clothes"],["Rok","Skirt","Clothes"],["Celana (Bri)","Trousers","Clothes"],
+  ["Celana dalam","Underpants","Clothes"],["Sabuk","Belt","Clothes"],["Sepatu bot","Boots","Clothes"],
+  ["Gelang","Bracelet","Clothes"],["Kancing","Button","Clothes"],["Topi besbol","Cap","Clothes"],
+  ["Kerah baju","Collar","Clothes"],["Anting-anting","Earring","Clothes"],["Sarung tangan","Gloves","Clothes"],
+  ["Sapu tangan","Handkerchief","Clothes"],["Jepit rambut","Hairpin","Clothes"],["Topi","Hat","Clothes"],
+  ["Kalung","Necklace","Clothes"],["Cincin","Ring","Clothes"],["Kuncir rambut","Rubber band","Clothes"],
+  ["Selendang","Shawl","Clothes"],["Sandal selop","Slippers","Clothes"],["Kaos kaki","Socks","Clothes"],
+  ["Dasi","Tie","Clothes"],["Kerudung","Veil","Clothes"],["Jam tangan","Wristwatch","Clothes"],
+  ["Resleting","Zipper","Clothes"],
+  ["Terhibur","Amused","Feelings and Emotions"],["Penuh kasih sayang","Compassionate","Feelings and Emotions"],["Berbahagia","Elated","Feelings and Emotions"],
+  ["Empati","Empathetic","Feelings and Emotions"],["Bersemangat","Excited","Feelings and Emotions"],["Bersyukur","Grateful","Feelings and Emotions"],
+  ["Penuh harapan","Hopeful","Feelings and Emotions"],["Gembira","Joyful","Feelings and Emotions"],["Melankolis","Melancholy","Feelings and Emotions"],
+  ["Senang hati","Pleased","Feelings and Emotions"],["Bangga","Proud","Feelings and Emotions"],["Puas hati","Satisfied","Feelings and Emotions"],
+  ["Bersyukur","Thankful","Feelings and Emotions"],["Percaya","Trusting","Feelings and Emotions"],["Semangat tinggi","Zealous","Feelings and Emotions"],
+  ["Cemas","Anxious","Feelings and Emotions"],["Bingung","Confused","Feelings and Emotions"],["Penasaran","Curious","Feelings and Emotions"],
+  ["Depresi","Depressed","Feelings and Emotions"],["Kecewa","Disappointed","Feelings and Emotions"],["Jijik","Disgusted","Feelings and Emotions"],
+  ["Malu","Embarrassed","Feelings and Emotions"],["Iri","Envious","Feelings and Emotions"],["Frustasi","Frustrated","Feelings and Emotions"],
+  ["Berduka","Grieved","Feelings and Emotions"],["Penuh kebencian","Hateful","Feelings and Emotions"],["Direndahkan","Humiliated","Feelings and Emotions"],
+  ["Terhormat","Honored","Feelings and Emotions"],["Tidak aman","Insecure","Feelings and Emotions"],["Kesal","Irritated","Feelings and Emotions"],
+  ["Cemburu","Jealous","Feelings and Emotions"],["Kesepian","Lonely","Feelings and Emotions"],["Sengsara","Miserable","Feelings and Emotions"],
+  ["Kewalahan","Overwhelmed","Feelings and Emotions"],["Ditolak","Rejected","Feelings and Emotions"],["Takut","Scared","Feelings and Emotions"],
+  ["Terkejut","Surprised","Feelings and Emotions"],["Mencurigakan","Suspicious","Feelings and Emotions"],["Tidak nyaman","Uncomfortable","Feelings and Emotions"],
+  ["Khawatir","Worried","Feelings and Emotions"],
+  ["Keuntungan","Advantage","Promotion"],["Tagihan","Bill","Promotion"],["Merek","Brand","Promotion"],
+  ["Anggaran","Budget","Promotion"],["Konfirmasi","Confirmation","Promotion"],["Pelanggan","Customer","Promotion"],
+  ["Utang","Debt","Promotion"],["Pengiriman","Delivery","Promotion"],["Kerugian","Disadvantage","Promotion"],
+  ["Distribusi","Distribution","Promotion"],["Karyawan","Employee","Promotion"],["Majikan","Employer","Promotion"],
+  ["Perkiraan","Estimation","Promotion"],["Fasilitas","Facility","Promotion"],["Umpan Balik","Feedback","Promotion"],
+  ["Menjamin","Guarantee","Promotion"],["Kemajuan","Improvement","Promotion"],["Industri","Industry","Promotion"],
+  ["Minat","Interest","Promotion"],["Inventaris","Inventory","Promotion"],["Tagihan","Invoice","Promotion"],
+  ["Pasar","Market","Promotion"],["Harga","Price","Promotion"],["Produk","Product","Promotion"],
+  ["Keuntungan","Profit","Promotion"],["Promosi","Promotion","Promotion"],["Hasil","Result","Promotion"],
+  ["Gaji","Salary","Promotion"],["SPG/SPB","Sales promotion girl/boy","Promotion"],["Stok / Saham","Stock","Promotion"],
+  ["Kualitas","Quality","Promotion"],["Biaya/berharga","Cost","Promotion"],["Pengurangan/mengurangi","Decrease","Promotion"],
+  ["Kenaikan/Meningkatkan","Increase","Promotion"],["Penawaran/Menawarkan","Offer","Promotion"],["Pesanan/Memesan","Order","Promotion"],
+  ["Pembelian/Membeli","Purchase","Promotion"],["Pembayaran kembali/Mengembalikan uang","Refund","Promotion"],["Laporan/Melaporkan","Report","Promotion"],
+  ["Logistik/Memasok","Supply","Promotion"],
+  ["Uang kertas","Bank Notes","Shopping"],["Kode barang","Barcode","Shopping"],["Keranjang","Basket","Shopping"],
+  ["Uang tunai","Cash","Shopping"],["Kasir","Cashier","Shopping"],["Cek","Cheque","Shopping"],
+  ["Pegawai toko","Clerk","Shopping"],["Recehan","Coins","Shopping"],["Lorong","Corridor","Shopping"],
+  ["Meja kasir","Counter","Shopping"],["Pembeli","Customer","Shopping"],["Diskon","Discount","Shopping"],
+  ["Kamar pas","Fitting Room","Shopping"],["Toko bunga","Florists","Shopping"],["Barang-barang","Goods","Shopping"],
+  ["Penjual sayur","Greengrocer","Shopping"],["Garansi","Guarantee","Shopping"],["Pedagang","Merchant","Shopping"],
+  ["Bandrol harga","Price tag","Shopping"],["Kwitansi","Receipt","Shopping"],["Penjualan","Sale","Shopping"],
+  ["Timbangan","Scale","Shopping"],["Toko sepatu","Shoe Shop","Shopping"],["Habis terjual","Sold Out","Shopping"],
+  ["Toko barang bekas","Thrifting Shop","Shopping"],["Toko mainan","Toy Store","Shopping"],["Troli","Trolley","Shopping"],
+  ["Cuci mata di toko","Window shopping","Shopping"],["Menerima","Accept","Shopping"],["Menawar","Bargain","Shopping"],
+  ["Mengeluh","Complain","Shopping"],["Menemukan","Find Out","Shopping"],["Antri","Queue","Shopping"],
+  ["Menolak","Reject","Shopping"],["Mengembalikan","Return","Shopping"],["Mencuri di toko","Shoplift","Shopping"],
+  ["Menghabiskan","Spend","Shopping"],["Menghambur-hamburkan","Waste","Shopping"],["Memuaskan","Satisfactory","Shopping"],
+  ["Gemar belanja","Shopaholic","Shopping"]
+];
+const M1_TAG_DAY = {
+  "Family":1,"Parts of a House":2,"Daily Activities":3,"Irregular Verbs 1":4,"Irregular Verbs 1 (V1-V2-V3)":4,
+  "Transportation":5,"Buildings and Places":6,"Direction":7,"Irregular Verbs 2":8,"Irregular Verbs 2 (V1-V2-V3)":8,
+  "Parts of a Body":9,"Personalities":10,"Clothes":11,"Irregular Verbs 3":12,"Irregular Verbs 3 (V1-V2-V3)":12,
+  "Feelings and Emotions":13,"Promotion":14,"Shopping":15,"Irregular Verbs 4":16,"Irregular Verbs 4 (V1-V2-V3)":16
+};
+const M1_DAY_TITLES = {
+  1:"Family",2:"Parts of a House",3:"Daily Activities",4:"Irregular Verbs 1",5:"Transportation",
+  6:"Buildings and Places",7:"Direction",8:"Irregular Verbs 2",9:"Parts of a Body",10:"Personalities",
+  11:"Clothes",12:"Irregular Verbs 3",13:"Feelings and Emotions",14:"Promotion",15:"Shopping",16:"Irregular Verbs 4"
+};
+
+/* ================= MONTH 2 DATA ================= */
+const m2ExprPhrasalRaw = [
+  ["Setahu saya.","As far as I know.","Small Talk"],
+  ["Wajahmu tak asing.","Your face rings a bell.","Small Talk"],
+  ["Siapa tahu/bisa saja kan.","You never know.","Small Talk"],
+  ["Kamu nggak bakal nyangka.","You'll never guess.","Small Talk"],
+  ["Boleh nanya apa aja kok.","Feel free to ask me.","Small Talk"],
+  ["Mengejar ketinggalan","Catch up","Small Talk"],
+  ["Bertemu (scr. kebetulan)","Run into","Small Talk"],
+  ["Menantikan dg. antusias","Look forward to","Small Talk"],
+  ["Mampir","Drop by","Small Talk"],
+  ["Nongkrong","Hang out","Small Talk"],
+  ["Aku belum dengar itu.","That's news to me.","Social Media"],
+  ["Gak usah dilanjut lagi.","Give it a rest.","Social Media"],
+  ["Aku nggak tertarik.","It's not my cup of tea.","Social Media"],
+  ["Ini hanya antara kamu dan aku aja.","It's just between you and me.","Social Media"],
+  ["Mending kamu aja.","Rather you than me.","Social Media"],
+  ["Pergi keluar","Go out","Social Media"],
+  ["Langsung akrab","Hit it off","Social Media"],
+  ["Menunda","Put off","Social Media"],
+  ["Menolak","Turn down","Social Media"],
+  ["Menyesuaikan diri","Settle in","Social Media"],
+  ["Saatnya membuat keputusanmu.","It's time to make your mind up.","Our Mind"],
+  ["Ia memiliki pemikiran sendiri.","It has a mind of its own.","Our Mind"],
+  ["Apakah kamu gila?","Are you out of your mind?","Our Mind"],
+  ["Uruslah urusanmu sendiri!","Mind your own business!","Our Mind"],
+  ["Tak apa. Baik-baik saja.","Never mind. It's OK.","Our Mind"],
+  ["Menutup diri","Close off","Our Mind"],
+  ["Berpegang pada","Cling to","Our Mind"],
+  ["Hilang","Slip away","Our Mind"],
+  ["Melepaskan","Free up","Our Mind"],
+  ["Membuka diri","Open up","Our Mind"],
+  ["Dia tahu itu sepenuhnya.","He knew it backwards and forwards.","Irregular Verbs 1 (M2)"],
+  ["Itu adalah hal yang ambigu bagiku.","It was a grey area for me.","Irregular Verbs 1 (M2)"],
+  ["Mereka benar-benar tahu seluk-beluknya.","They certainly know the ropes.","Irregular Verbs 1 (M2)"],
+  ["Aku ingin bertanya padamu tentang grammar.","I wanted to pick your brain about Grammar.","Irregular Verbs 1 (M2)"],
+  ["Orang pintar berpikir serupa.","Great minds think alike.","Irregular Verbs 1 (M2)"],
+  ["Melakukan","Carry out","Irregular Verbs 1 (M2)"],
+  ["Mencari tahu","Figure out","Irregular Verbs 1 (M2)"],
+  ["Menyiapkan","Set up","Irregular Verbs 1 (M2)"],
+  ["Membongkar","Break down","Irregular Verbs 1 (M2)"],
+  ["Menyambungkan","Plug in","Irregular Verbs 1 (M2)"],
+  ["Kamu akan dalam masalah.","You'll end up in hot water.","Crime"],
+  ["Mereka tertangkap basah tadi malam.","They were caught red-handed.","Crime"],
+  ["Aku akan mengakui kejadian ini.","I will come clean about this incident.","Crime"],
+  ["Dia tak biasanya membuat kesalahan.","He rarely puts a foot wrong.","Crime"],
+  ["Jangan menuduh aku.","Don't point the finger at me.","Crime"],
+  ["kabur (dr. kejaran)","Get away","Crime"],
+  ["melacak","Track down","Crime"],
+  ["memenjarakan","Lock up","Crime"],
+  ["kabur (dr. tahanan)","Break out (of)","Crime"],
+  ["membobol","Break into","Crime"],
+  ["Aku nggak enak badan.","I feel under the weather.","Health"],
+  ["Dia pucat sekali.","He looks as pale as a ghost.","Health"],
+  ["Dia masih sehat banget.","She is alive and kicking.","Health"],
+  ["Aku akhirnya sembuh.","I'm finally back on my feet.","Health"],
+  ["Kayaknya kamu masuk angin.","I think that you caught a cold.","Health"],
+  ["Pemeriksaan","Check up","Health"],
+  ["Menjaga/Mengurus","Look after","Health"],
+  ["Membengkak","Swell up","Health"],
+  ["Pingsan","Pass out","Health"],
+  ["Muntah","Bring up","Health"],
+  ["Halo, Siapa yang berbicara?","Hello, Who's speaking?","Performance"],
+  ["Bisakah Anda menghubungkan saya dengan...?","Could you put me through to ...?","Performance"],
+  ["Tanpa berlama-lama","Without further ado","Performance"],
+  ["Waktu dan tempat kami persilakan.","The floor is yours","Performance"],
+  ["Mari kita sambut ...","Would you please welcome ...","Performance"],
+  ["Memulai","Kick off","Performance"],
+  ["Meningkatkan","Pump up","Performance"],
+  ["Menghubungkan","Put through","Performance"],
+  ["Terus melakukan","Keep on","Performance"],
+  ["Membangkitkan","Lift up","Performance"],
+  ["Sampai di mana tadi?","Where was I?","Irregular Verbs 2 (M2)"],
+  ["Dia jauh melampauiku.","She is lightyears ahead of me.","Irregular Verbs 2 (M2)"],
+  ["Aku gak ada pilihan selain menghentikannya.","I have no choice but to pull the plug.","Irregular Verbs 2 (M2)"],
+  ["Dia sudah menguasainya dengan baik.","He got it down to a science.","Irregular Verbs 2 (M2)"],
+  ["Orang pintar berpikir serupa.","Great minds think alike.","Irregular Verbs 2 (M2)"],
+  ["Muncul","Pop up","Irregular Verbs 2 (M2)"],
+  ["Memahami, mencari tahu","Figure out","Irregular Verbs 2 (M2)"],
+  ["menyiapkan","Set up","Irregular Verbs 2 (M2)"],
+  ["Rusak, mengalami kerusakan","Break down","Irregular Verbs 2 (M2)"],
+  ["Mencolokkan","Plug in","Irregular Verbs 2 (M2)"],
+  ["Apakah saya di antrian yang benar?","Am I in the right queue?","Vacation"],
+  ["Apa kau terima pembayaran dengan dolar?","Do you accept payment in Dollars?","Vacation"],
+  ["Berapa lama sampai mendarat?","How long until touchdown?","Vacation"],
+  ["Apakah ada kamar yang masih tersedia?","Do you have any rooms available?","Vacation"],
+  ["Di mana pintu masuk museum?","Where is the entrance to the museum?","Vacation"],
+  ["Menginap","Stay over","Vacation"],
+  ["Pergi liburan","Get away","Vacation"],
+  ["Bersantai","Wind down","Vacation"],
+  ["Mendaftar","Check in","Vacation"],
+  ["Berangkat","Set off","Vacation"],
+  ["Kita coba sepakat buat tidak sepakat.","Let's agree to disagree.","Debate and Discussion"],
+  ["Kita harus menang demi apapun.","We must win at all costs.","Debate and Discussion"],
+  ["Aku paham maksudmu, tapi aku pikir....","I see your point, but I think…","Debate and Discussion"],
+  ["Maaf menyela, tapi...","Forgive me for interrupting, but...","Debate and Discussion"],
+  ["Biar jelas aja, maksudku gini lo..","Just to be clear, here is what I mean","Debate and Discussion"],
+  ["Meringkas","Sum up","Debate and Discussion"],
+  ["Membuang","Cut out","Debate and Discussion"],
+  ["Menyela","Cut in","Debate and Discussion"],
+  ["Membahas","Have on","Debate and Discussion"],
+  ["Menunda","Hold up","Debate and Discussion"],
+  ["Jangan keluar jalur","Don't go off track.","Tour Guide"],
+  ["Hati-hati di jalan","Watch your back on the street.","Tour Guide"],
+  ["Jadwal kita padat besok","We have a full plate tomorrow.","Tour Guide"],
+  ["Jangan bawa banyak barang","Don't pack a lot of items.","Tour Guide"],
+  ["Atas nama LC tours","On behalf of LC Tours","Tour Guide"],
+  ["Tahan sebentar","Hang tight","Tour Guide"],
+  ["Menahan/Menunda","Hold up","Tour Guide"],
+  ["Santai","Sit back","Tour Guide"],
+  ["Bersuara lebih keras","Speak up","Tour Guide"],
+  ["Menghubungkan","Hook up","Tour Guide"],
+  ["Sambil menyelam minum air.","Kill two birds with one stone.","Irregular Verbs 3 (M2)"],
+  ["Di mana ada kemauan pasti ada jalan.","Where there's a will, there's a way","Irregular Verbs 3 (M2)"],
+  ["Dia terlahir beruntung.","He's born under a lucky star.","Irregular Verbs 3 (M2)"],
+  ["Jangan menilai sesuatu dari tampilannya.","Don't judge a book by its cover.","Irregular Verbs 3 (M2)"],
+  ["Nggak ada kerja keras, nggak ada pencapaian","No pain, no gain!","Irregular Verbs 3 (M2)"],
+  ["Melunasi","Paid off","Irregular Verbs 3 (M2)"],
+  ["Bergantung pada","Rest on","Irregular Verbs 3 (M2)"],
+  ["Melejit","Shoot to","Irregular Verbs 3 (M2)"],
+  ["Menyisihkan","Put aside","Irregular Verbs 3 (M2)"],
+  ["Mewarisi","Come into","Irregular Verbs 3 (M2)"],
+  ["Jangan terlalu gila kerja","Don't be such a workaholic","Occupations"],
+  ["Dia sangat cinta pekerjaannya","He is really committed to his work","Occupations"],
+  ["Aku lagi nganggur sekarang","I'm not working at the moment","Occupations"],
+  ["Dia lagi magang","He's doing an internship","Occupations"],
+  ["Aku wirausaha","I'm self-employed","Occupations"],
+  ["Menghubungi","Reach out","Occupations"],
+  ["Cocok, beradaptasi","Fit in","Occupations"],
+  ["Menyelesaikan","Follow through","Occupations"],
+  ["Menyusul, mengimbangi","Keep up with","Occupations"],
+  ["Menerima tanggung jawab","Take on","Occupations"],
+  ["Jangan buang sampah sembarangan.","Please don't litter","Environment"],
+  ["Ini hujan yang lebat.","It is raining cats and dogs!","Environment"],
+  ["Mending mencegah daripada menyesal.","It's better to be safe than sorry","Environment"],
+  ["Tindakan lebih penting dari kata-kata.","Actions speak louder than words","Environment"],
+  ["Semua ada hikmahnya.","Every cloud has a silver lining","Environment"],
+  ["Punah, Hilang","Die out","Environment"],
+  ["Kehabisan","Run out of","Environment"],
+  ["Membersihkan","Clean up","Environment"],
+  ["Menebang","Cut down","Environment"],
+  ["Memanaskan","Heat up","Environment"],
+  ["Kita harus bersiap dan tetap aman.","We should prepare and stay safe.","Natural Disaster"],
+  ["Kita harus waspada.","We need to be cautious.","Natural Disaster"],
+  ["Peringatan tsunami sudah diumumkan.","The tsunami warning was issued.","Natural Disaster"],
+  ["Musim hujan sudah tiba.","The monsoon season has arrived.","Natural Disaster"],
+  ["Ia menyebabkan banyak kerusakan.","It caused a lot of damage.","Natural Disaster"],
+  ["Melanda","Sweep through","Natural Disaster"],
+  ["Terjebak","Caught up in","Natural Disaster"],
+  ["Menyapu bersih","Wipe out","Natural Disaster"],
+  ["Runtuh","Cave in","Natural Disaster"],
+  ["Terputus","Be cut off","Natural Disaster"],
+  ["Saya dapat bekerja di bawah tekanan.","I perform well under pressure.","Irregular Verbs 4 (M2)"],
+  ["Saya tutor bahasa Inggris yang berkompeten.","I am a qualified English tutor.","Irregular Verbs 4 (M2)"],
+  ["Deskripsi pekerjaan ini sangat sesuai dengan kualifikasi saya.","The job description aligns perfectly with my qualifications.","Irregular Verbs 4 (M2)"],
+  ["Saya berharap mendapatkan kabar dari Anda.","I look forward to hearing from you.","Irregular Verbs 4 (M2)"],
+  ["Terimakasih telah mempertimbangkan saya untuk peran ini.","I really appreciate being considered for this role.","Irregular Verbs 4 (M2)"],
+  ["Mengambil/menerima","Take on","Irregular Verbs 4 (M2)"],
+  ["Menyebabkan","Bring about","Irregular Verbs 4 (M2)"],
+  ["Menindaklanjuti","Follow up","Irregular Verbs 4 (M2)"],
+  ["Memperkenalkan","Bring in","Irregular Verbs 4 (M2)"],
+  ["Memecahkan/menemukan (solusi)","Work out","Irregular Verbs 4 (M2)"],
+  ["Menggergaji","saw – sawed – sawn","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Mengatakan","say – said – said","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Melihat","see – saw – seen","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Menjual","sell – sold – sold","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Mengirim","send – sent – sent","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Menetapkan/Mengatur","set – set – set","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Menjahit","sew – sewed – sewn","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Mengguncang","shake – shook – shaken","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Mengeluarkan","shed – shed – shed","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Bersinar","shine – shone – shone","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Menembak","shoot – shot – shot","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Menunjukkan","show – showed – shown","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Mengecil","shrink – shrank – shrunk","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Menutup","shut – shut – shut","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Bernyanyi","sing – sang – sung","Irregular Verbs 1 (M2) (V1-V2-V3)"],
+  ["Tenggelam","sink – sank – sunk","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Duduk","sit – sat – sat","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Tidur","sleep – slept – slept","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Meluncur","slide – slid – slid","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Mencium","smell – smelt – smelt","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Menabur","sow – sowed – sown","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Berbicara","speak – spoke – spoken","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Mengeja","spell – spelt – spelt","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Menghabiskan","spend – spent – spent","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Menumpahkan","spill – spilt – spilt","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Meludah","spit – spat – spat","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Menyebarkan","spread – spread – spread","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Berdiri","stand – stood – stood","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Mencuri","steal – stole – stolen","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Menempel","stick – stuck – stuck","Irregular Verbs 2 (M2) (V1-V2-V3)"],
+  ["Menyengat","sting – stung – stung","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Bau","stink – stank – stunk","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Memukul","strike – struck – struck","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Bersumpah","swear – swore – sworn","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Menyapu","sweep – swept – swept","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Membengkak","swell – swelled – swollen","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Berenang","swim – swam – swum","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Berayun","swing – swung – swung","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Mengambil","take – took – taken","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Mengajar","teach – taught – taught","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Merobek","tear – tore – torn","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Memberitahu","tell – told – told","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Berpikir","think – thought – thought","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Melempar","throw – threw – thrown","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Memahami","understand – understood – understood","Irregular Verbs 3 (M2) (V1-V2-V3)"],
+  ["Bangun","wake – woke – woken","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Memakai","wear – wore – worn","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Menenun","weave – wove – woven","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Menangis","weep – wept – wept","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Menikah","wed – wedded – wedded","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Basah","wet – wet – wet","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Menang","win – won – won","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Melilit","wind – wound – wound","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Menarik kembali","withdraw – withdrew – withdrawn","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Menahan","withhold – withheld – withheld","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Bertahan","withstand – withstood – withstood","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Menghadang","waylay – waylaid – waylaid","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Meremas","wring – wrung – wrung","Irregular Verbs 4 (M2) (V1-V2-V3)"],
+  ["Menulis","write – wrote – written","Irregular Verbs 4 (M2) (V1-V2-V3)"]
+];
+const m2VocabRaw = [
+  ["Luar negeri","Abroad","Small Talk"],["Kenalan","Acquaintances","Small Talk"],["Meminta Maaf","Apologize","Small Talk"],
+  ["Guyonan","Banter","Small Talk"],["Santai","Casual","Small Talk"],["Obrolan ringan","Chit-chat","Small Talk"],
+  ["Rekan Kerja","Colleagues","Small Talk"],["Pujian","Compliment","Small Talk"],["Percakapan","Conversation","Small Talk"],
+  ["Mendorong","Encourage","Small Talk"],["Menarik perhatian","Engage","Small Talk"],["Etiket","Etiquette","Small Talk"],
+  ["Bertukar","Exchange","Small Talk"],["Ramah","Friendly","Small Talk"],["Menikah","Get married","Small Talk"],
+  ["Lulus/Lulusan","Graduate","Small Talk"],["Hobi","Hobbies","Small Talk"],["Kota Kelahiran","Hometown","Small Talk"],
+  ["Pembuka obrolan","Icebreaker","Small Talk"],["Minat","Interests","Small Talk"],["Acara Lokal","Local Events","Small Talk"],
+  ["Menyebutkan","Mention","Small Talk"],["Bergaul","Mingle","Small Talk"],["Terbuka","Open-ended","Small Talk"],
+  ["Pekerjaan paruh waktu","Part-time job","Small Talk"],["Dokter anak","Pediatrician","Small Talk"],["Ziarah","Pilgrimage","Small Talk"],
+  ["Rencana/Merencanakan","Plan","Small Talk"],["Menyenangkan","Pleasant","Small Talk"],["Sopan","Polite","Small Talk"],
+  ["Merekomendasikan","Recommend","Small Talk"],["Santai","Relaxed","Small Talk"],["Agama","Religion","Small Talk"],
+  ["Mengenang","Reminisce","Small Talk"],["Tulus","Sincere","Small Talk"],["Percakapan ringan","Small talk","Small Talk"],
+  ["Bersosialisasi","Socialize","Small Talk"],["Titik Awal","Starting point","Small Talk"],["Orang Asing","Strangers","Small Talk"],
+  ["Cuaca","Weather","Small Talk"],
+  ["Menerima","Accept","Social Media"],["Meskipun","Although","Social Media"],["Penanda","Bookmark","Social Media"],
+  ["Chat/Obrolan","Chat","Social Media"],["Pembuat","Creator","Social Media"],["Saat ini","Current","Social Media"],
+  ["Memutuskan","Decide","Social Media"],["Langsung/mengarahkan","Direct","Social Media"],["Mengungkapkan","Express","Social Media"],
+  ["Fitur","Feature","Social Media"],["Mengikuti","Follow","Social Media"],["Forum","Forum","Social Media"],
+  ["Pendiri","Founder","Social Media"],["Sering","Frequently","Social Media"],["Sejarah","History","Social Media"],
+  ["Provokatif","Inflammatory","Social Media"],["Pengaruh","Influence","Social Media"],["Menginspirasi","Inspire","Social Media"],
+  ["Pesan","Message","Social Media"],["Momentum","Moment","Social Media"],["Berita Terkini","Newsfeed","Social Media"],
+  ["Berpartisipasi","Participate","Social Media"],["Program, panggung","Platform","Social Media"],["Pos/mengirim","Post","Social Media"],
+  ["Deskripsi singkat","Profile","Social Media"],["Merespons/Bereaksi","React","Social Media"],["Secara teratur","Regularly","Social Media"],
+  ["Membalas/Tanggapan","Reply","Social Media"],["Mewakili","Represent","Social Media"],["Menandakan","Signify","Social Media"],
+  ["Situs","Site","Social Media"],["Menyebar","Spread","Social Media"],["Berlangganan","Subscribe","Social Media"],
+  ["Tanda/Menandai","Tag","Social Media"],["Cenderung/Kecenderungan","Trend","Social Media"],["Memancing/Menyindir","Troll","Social Media"],
+  ["Kicauan","Tweet","Social Media"],["Memperbarui/Pembaruan","Update","Social Media"],["Meningkatkan/Peningkatan","Upgrade","Social Media"],
+  ["Kesal/Menjengkelkan","Upset","Social Media"],
+  ["Kecocokan","Affinity","Our Mind"],["Bertukar ide","Brainstorm","Our Mind"],["Tabel/Grafik","Chart","Our Mind"],
+  ["Memperjelas","Clarify","Our Mind"],["Mengelompokkan","Classify","Our Mind"],["Klaster/Mengelompokkan","Cluster","Our Mind"],
+  ["Berkolaborasi","Collaborate","Our Mind"],["Konsep","Concept","Our Mind"],["Menciptakan","Create","Our Mind"],
+  ["Siklus","Cycle","Our Mind"],["Memungkinkan","Enable","Our Mind"],["Menetapkan","Establish","Our Mind"],
+  ["Arus/Mengalir","Flow","Our Mind"],["Tujuan","Goal","Our Mind"],["Ide","Idea","Our Mind"],
+  ["Membayangkan","Imagine","Our Mind"],["Kesan","Impression","Our Mind"],["Inovasi","Innovate","Our Mind"],
+  ["Intuitif","Intuitive","Our Mind"],["Menghafal","Memorize","Our Mind"],["Pemetaan pikiran","Mind mapping","Our Mind"],
+  ["Pesanan/Memerintahkan","Order","Our Mind"],["Mengorganisir","Organize","Our Mind"],["Garis Besar/Menguraikan","Outline","Our Mind"],
+  ["Gambaran Umum","Overview","Our Mind"],["Menyiapkan","Prepare","Our Mind"],["Menyediakan","Provide","Our Mind"],
+  ["Tujuan","Purpose","Our Mind"],["Mengingat","Recall","Our Mind"],["Meninjau","Review","Our Mind"],
+  ["Merevisi","Revise","Our Mind"],["Urutan","Sequence","Our Mind"],["Menyelesaikan","Solve","Our Mind"],
+  ["Merangsang","Stimulate","Our Mind"],["Merangkum","Summarize","Our Mind"],["Kerjasama Tim","Teamwork","Our Mind"],
+  ["Tema","Theme","Our Mind"],["Pikiran","Thought","Our Mind"],["Visi","Vision","Our Mind"],
+  ["Memvisualisasikan","Visualize","Our Mind"],
+  ["Penculikan","Abduction","Crime"],["Penyalahgunaan/penyiksaan","Abuse","Crime"],["Membuat tuduhan","Accuse","Crime"],
+  ["Menangkap","Arrest","Crime"],["Pembakaran berencana","Arson","Crime"],["Perundungan","Bully","Crime"],
+  ["Perampokan","Burglary","Crime"],["Menuduh","Charge","Crime"],["Melakukan","Commit","Crime"],
+  ["Menghukum","Convict","Crime"],["Pengadilan","Court","Crime"],["Kejahatan siber","Cybercrime","Crime"],
+  ["Peredaran narkoba","Drug trafficking","Crime"],["Penyitaan","Forfeiture","Crime"],["Penipuan","Fraud","Crime"],
+  ["Bersalah","Guilty","Crime"],["Meretas","Hack","Crime"],["Membajak","Hijack","Crime"],
+  ["Pembunuhan","Homicide","Crime"],["Tidak bersalah","Innocent","Crime"],["Hakim","Judge","Crime"],
+  ["Keadilan","Justice","Crime"],["Menculik","Kidnap","Crime"],["Hukum","Law","Crime"],
+  ["Pembunuhan","Murder","Crime"],["Mencopet","Pickpocket","Crime"],["Mendakwa","Prosecute","Crime"],
+  ["Hukuman","Punishment","Crime"],["Pemerkosaan","Rape","Crime"],["Merampok","Rob","Crime"],
+  ["Hukuman","Sentence","Crime"],["Mencuri","Steal","Crime"],["Tersangka","Suspect","Crime"],
+  ["Bersaksi","Testify","Crime"],["Pencurian","Theft","Crime"],["Sidang","Trial","Crime"],
+  ["Putusan","Verdict","Crime"],["Korban","Victim","Crime"],["Kekerasan","Violence","Crime"],
+  ["Saksi","Witness","Crime"],
+  ["Kecelakaan","Accident","Health"],["Sakit punggung","Backache","Health"],["Balutan","Bandage","Health"],
+  ["Pilek","Cold","Health"],["Batuk","Cough","Health"],["Dokter gigi","Dentist","Health"],
+  ["Penyakit","Disease","Health"],["Tetes","Drop","Health"],["Apotek","Drugstore","Health"],
+  ["Sakit telinga","Earache","Health"],["Demam","Fever","Health"],["Generik","Generic","Health"],
+  ["Sakit kepala","Headache","Health"],["Dirawat di rumah sakit","Hospitalized","Health"],["Terluka","Hurt","Health"],
+  ["Sakit","Ill","Health"],["Penyakit","Illness","Health"],["Menulari","Infect","Health"],
+  ["Cedera","Injury","Health"],["Insomnia","Insomnia","Health"],["Gatal","Itchy","Health"],
+  ["Cairan","Liquid","Health"],["Obat","Medicine","Health"],["Salep","Ointment","Health"],
+  ["Nyeri","Pain","Health"],["Menyakitkan","Painful","Health"],["Pencegahan","Prevention","Health"],
+  ["Ruam","Rash","Health"],["Tidak sehat","Sick","Health"],["Luka bakar","Skin burn","Health"],
+  ["Sakit","Sore","Health"],["Otot pegal","Sore muscle","Health"],["Sakit tenggorokan","Sore throat","Health"],
+  ["Keseleo tangan","Sprained Hand","Health"],["Sakit perut","Stomachache","Health"],["Menyarankan","Suggest","Health"],
+  ["Gejala","Symptoms","Health"],["Jaga diri","Take care","Health"],["Sakit gigi","Toothache","Health"],
+  ["Pengobatan","Treatment","Health"],
+  ["Berperan","Act","Performance"],["Berimprovisasi","Ad-lib","Performance"],["Agenda","Agenda","Performance"],
+  ["Pengumuman","Announcement","Performance"],["Janji","Appointment","Performance"],["Menghargai","Appreciate","Performance"],
+  ["Atmosfer","Atmosphere","Performance"],["Menghadiri","Attend","Performance"],["Hadirin","Audience","Performance"],
+  ["Percaya diri","Confident","Performance"],["Selamat","Congratulation","Performance"],["Nyaman","Convenient","Performance"],
+  ["Kerajinan","Craft","Performance"],["Kerumunan","Crowd","Performance"],["Kartu petunjuk","Cue card","Performance"],
+  ["Menolak","Decline","Performance"],["Pantas","Deserve","Performance"],["Gelisah","Fidget","Performance"],
+  ["Isyarat","Gesture","Performance"],["Hebat","Great","Performance"],["Dampak","Impact","Performance"],
+  ["Wawasan","Insight","Performance"],["Berinteraksi","Interact","Performance"],["Melibatkan","Involve","Performance"],
+  ["Lelucon","Joke","Performance"],["Keras","Loud","Performance"],["Bergumam","Mumble","Performance"],
+  ["Rintangan","Obstacle","Performance"],["Pembukaan pertunjukan","Opening set","Performance"],["Peserta","Participant","Performance"],
+  ["Tampil","Perform","Performance"],["Doa","Prayer","Performance"],["Mempersembahkan","Present","Performance"],
+  ["Mengakui","Recognize","Performance"],["Jadwal","Schedule","Performance"],["Pertunjukan","Show","Performance"],
+  ["Pidato","Speech","Performance"],["Panggung","Stage","Performance"],["Nada","Tone","Performance"],
+  ["Menyambut","Welcome","Performance"],
+  ["Akomodasi","Accommodation","Vacation"],["Pesawat Terbang","Aircraft","Vacation"],["Tiket Pesawat","Airfare","Vacation"],
+  ["Taman Hiburan","Amusement Park","Vacation"],["Bagasi","Baggage","Vacation"],["Milik","Belong","Vacation"],
+  ["Anggaran","Budget","Vacation"],["Perayaan","Celebration","Vacation"],["Bersamaan","Coincide","Vacation"],
+  ["Negara","Country","Vacation"],["Kuliner","Culinary","Vacation"],["Bea Cukai","Customs","Vacation"],
+  ["Berangkat","Depart","Vacation"],["Tujuan","Destination","Vacation"],["Waktu Senggang","Downtime","Vacation"],
+  ["Memulai Perjalanan","Embark","Vacation"],["Menikmati","Enjoy","Vacation"],["Menghibur","Entertain","Vacation"],
+  ["Peralatan","Equipment","Vacation"],["Perjalanan","Excursion","Vacation"],["Menjelajahi","Explore","Vacation"],
+  ["Penginapan","Inn","Vacation"],["Rencana Perjalanan","Itinerary","Vacation"],["Petanda/Tonggak batas","Landmark","Vacation"],
+  ["Paket","Package","Vacation"],["Penumpang","Passenger","Vacation"],["Prosedur","Procedure","Vacation"],
+  ["Rekreasi","Recreation","Vacation"],["Wilayah","Region","Vacation"],["Menyediakan","Reserve","Vacation"],
+  ["Resor","Resort","Vacation"],["Pemandangan","Scenery","Vacation"],["Mabuk Laut","Seasick","Vacation"],
+  ["Menginap","Stay","Vacation"],["Koper","Suitcase","Vacation"],["Mengelilingi","Surround","Vacation"],
+  ["Tempat Wisata","Tourism spot","Vacation"],["Perangkap","Trap","Vacation"],["Penjual","Vendor","Vacation"],
+  ["Perjalanan","Voyage","Vacation"],
+  ["Membatalkan","Abolish","Debate and Discussion"],["Wasit/Penguji","Adjudicator","Debate and Discussion"],["Setuju","Agree","Debate and Discussion"],
+  ["Berdebat/berpendapat","Argue","Debate and Discussion"],["Larangan/Melarang","Ban","Debate and Discussion"],["Percaya","Believe","Debate and Discussion"],
+  ["Beban","Burden","Debate and Discussion"],["Kasus","Case","Debate and Discussion"],["Ketua","Chairperson","Debate and Discussion"],
+  ["Memperjelas","Clarify","Debate and Discussion"],["Padat","Compact","Debate and Discussion"],["Bersaing","Compete","Debate and Discussion"],
+  ["Mengkhawatirkan","Concern","Debate and Discussion"],["Mempertimbangkan","Consider","Debate and Discussion"],["Meyakinkan","Convince","Debate and Discussion"],
+  ["Pasti","Definitely","Debate and Discussion"],["Wakil/utusan","Deputy","Debate and Discussion"],["Membedakan","Differ","Debate and Discussion"],
+  ["Tidak setuju","Disagree","Debate and Discussion"],["Meragukan/Keraguan","Doubt","Debate and Discussion"],["Mendukung/Keberpihakan","Favor","Debate and Discussion"],
+  ["Pemerintah","Government","Debate and Discussion"],["Menebak/Tebakan","Guess","Debate and Discussion"],["Menginterupsi","Interrupt","Debate and Discussion"],
+  ["Menyesatkan","Mislead","Debate and Discussion"],["Mosi","Motions","Debate and Discussion"],["Pendapat","Opinion","Debate and Discussion"],
+  ["Oposisi","Opposition","Debate and Discussion"],["Parlementer","Parliamentary","Debate and Discussion"],["Hukuman","Penalty","Debate and Discussion"],
+  ["Kemiskinan","Poverty","Debate and Discussion"],["Proposisi","Proposition","Debate and Discussion"],["Melarang","Prohibit","Debate and Discussion"],
+  ["Membuktikan","Prove","Debate and Discussion"],["Alasan/Menalar","Reason","Debate and Discussion"],["Masuk akal","Reasonable","Debate and Discussion"],
+  ["Replik/Penolakan","Rebuttal","Debate and Discussion"],["Regulasi","Regulation","Debate and Discussion"],["Pernyataan","Statement","Debate and Discussion"],
+  ["Ringkasan","Summary","Debate and Discussion"],
+  ["Mengiklankan","Advertise","Tour Guide"],["Pengumuman/Penasihat","Advisory","Tour Guide"],["Afiliasi","Affiliate","Tour Guide"],
+  ["Agen","Agency","Tour Guide"],["Maskapai","Airline","Tour Guide"],["Bandara","Airport","Tour Guide"],
+  ["Kuno","Ancient","Tour Guide"],["Tiket Pesawat","Boarding pass","Tour Guide"],["Pembatalan","Cancellation","Tour Guide"],
+  ["Sewa","Charter","Tour Guide"],["Konsultan","Consultant","Tour Guide"],["Mata Uang","Currency","Tour Guide"],
+  ["Kesepakatan/Berurusan","Deal","Tour Guide"],["Keberangkatan","Departure","Tour Guide"],["Dalam Perjalanan","En route","Tour Guide"],
+  ["Harga Tetap","Fixed price","Tour Guide"],["Penerbangan","Flight","Tour Guide"],["Warisan","Heritage","Tour Guide"],
+  ["Liburan","Holiday","Tour Guide"],["Bulan Madu","Honeymoon","Tour Guide"],["Losmen","Hostel","Tour Guide"],
+  ["Asuransi","Insurance","Tour Guide"],["Perjalanan","Journey","Tour Guide"],["Jalur","Lane","Tour Guide"],
+  ["Transit","Layover","Tour Guide"],["Selebaran","Leaflet","Tour Guide"],["Waktu Luang","Leisure","Tour Guide"],
+  ["Pondok","Lodge","Tour Guide"],["Bagasi","Luggage","Tour Guide"],["Bernegosiasi","Negotiate","Tour Guide"],
+  ["Operator","Operator","Tour Guide"],["Sewa/Menyewa","Rent","Tour Guide"],["Pembatasan","Restriction","Tour Guide"],
+  ["Rute","Route","Tour Guide"],["Memuaskan","Satisfy","Tour Guide"],["Perjalanan Sendiri","Solo trip","Tour Guide"],
+  ["Suite","Suite","Tour Guide"],["Berkelanjutan","Sustainable","Tour Guide"],["Perjalanan","Travel","Tour Guide"],
+  ["Surat Perjalanan","Travel Documents","Tour Guide"],
+  ["Tentara","Army","Occupations"],["Seniman","Artist","Occupations"],["Asisten","Assistant","Occupations"],
+  ["Manfaat/Memberi manfaat","Benefit","Occupations"],["Menciptakan","Create","Occupations"],["Kurator","Curator","Occupations"],
+  ["Mengirimkan","Deliver","Occupations"],["Mengembangkan","Develop","Occupations"],["Direktur","Director","Occupations"],
+  ["Karyawan","Employee","Occupations"],["Pengusaha","Employer","Occupations"],["Mesin","Engine","Occupations"],
+  ["Insinyur","Engineer","Occupations"],["Pengusaha","Entrepreneur","Occupations"],["Petani","Farmer","Occupations"],
+  ["Keuangan/Membiayai","Finance","Occupations"],["Pemadam kebakaran","Firefighter","Occupations"],["Nelayan","Fisherman","Occupations"],
+  ["Pramugari/Pramugara","Flight attendant","Occupations"],["Pertumbuhan","Growth","Occupations"],["Markas","Headquarters","Occupations"],
+  ["Ibu rumah tangga","Homemaker","Occupations"],["Independen","Independent","Occupations"],["Jurnalis","Journalist","Occupations"],
+  ["Pengacara","Lawyer","Occupations"],["Memimpin/Pemimpin","Lead","Occupations"],["Dosen/Mengajar","Lecture","Occupations"],
+  ["Pedagang","Merchant","Occupations"],["Perawat","Nurse","Occupations"],["Pelukis","Painter","Occupations"],
+  ["Passion","Passion","Occupations"],["Membujuk","Persuade","Occupations"],["Polisi","Police officer","Occupations"],
+  ["Bertanggung jawab","Responsible","Occupations"],["Gaji","Salary","Occupations"],["Ilmuwan","Scientist","Occupations"],
+  ["Dokter bedah","Surgeon","Occupations"],["Melatih/Kereta","Train","Occupations"],["Dokter hewan","Veterinarian","Occupations"],
+  ["Pelayan","Waiter","Occupations"],
+  ["Menyerap","Absorb","Environment"],["Hujan asam","Acid rain","Environment"],["Bisa terurai","Biodegradable","Environment"],
+  ["Keanekaragaman hayati","Biodiversity","Environment"],["Massa","Bulk","Environment"],["Bahan kimia","Chemicals","Environment"],
+  ["Konservasi","Conservation","Environment"],["Bahaya","Danger","Environment"],["Berbahaya","Dangerous","Environment"],
+  ["Pembusukan","Decay","Environment"],["Penggundulan hutan","Deforestation","Environment"],["Menghancurkan","Destroy","Environment"],
+  ["Sekali pakai","Disposable","Environment"],["Saluran air","Drainage","Environment"],["Kekeringan","Drought","Environment"],
+  ["Kepunahan","Extinction","Environment"],["Hutan","Forests","Environment"],["Gas berbahaya","Fumes","Environment"],
+  ["Bertahap","Gradual","Environment"],["Rumah kaca","Greenhouse","Environment"],["Berbahaya","Harmful","Environment"],
+  ["Lapisan","Layer","Environment"],["Membuang sampah","Litter","Environment"],["Menjaga","Maintain","Environment"],
+  ["Mikroplastik","Microbead","Environment"],["Beracun","Poisonous","Environment"],["Tekanan","Pressure","Environment"],
+  ["Daur ulang","Recycle","Environment"],["Dapat diperbarui","Renewable","Environment"],["Sumber daya","Resource","Environment"],
+  ["Dapat digunakan kembali","Reusable","Environment"],["Sampah","Rubbish","Environment"],["Merusak/Keruntuhan","Ruin","Environment"],
+  ["Zat","Substance","Environment"],["Permukaan","Surface","Environment"],["Terancam","Threatened","Environment"],
+  ["Tropis","Tropic","Environment"],["Tanpa timbal","Unleaded","Environment"],["Limbah","Waste","Environment"],
+  ["Kincir angin","Windmill","Environment"],
+  ["Longsor salju","Avalanche","Natural Disaster"],["Menghindari","Avoid","Natural Disaster"],["Badai salju","Blizzard","Natural Disaster"],
+  ["Terkubur","Buried","Natural Disaster"],["Meledak","Burst","Natural Disaster"],["Runtuh","Collapse","Natural Disaster"],
+  ["Puing-puing","Debris","Natural Disaster"],["Membasahi","Drench","Natural Disaster"],["Gerimis","Drizzle","Natural Disaster"],
+  ["Kekeringan","Drought","Natural Disaster"],["Gempa bumi","Earthquake","Natural Disaster"],["Melarikan diri","Escape","Natural Disaster"],
+  ["Ledakan","Explosion","Natural Disaster"],["Api","Fire","Natural Disaster"],["Banjir","Flood","Natural Disaster"],
+  ["Hutan","Forests","Natural Disaster"],["Tanah","Ground","Natural Disaster"],["Menyembunyikan","Hide","Natural Disaster"],
+  ["Badai","Hurricane","Natural Disaster"],["Tanah longsor","Landslide","Natural Disaster"],["Kilat","Lightning","Natural Disaster"],
+  ["Musim hujan","Monsoon","Natural Disaster"],["Lumpur","Mud","Natural Disaster"],["Menyelamatkan","Rescue","Natural Disaster"],
+  ["Batu","Rock","Natural Disaster"],["Menyelamatkan/aman","Save","Natural Disaster"],["Gemetar","Shake","Natural Disaster"],
+  ["Lubang tanah","Sinkhole","Natural Disaster"],["Salju","Snow","Natural Disaster"],["Menyebar","Spread","Natural Disaster"],
+  ["Badai","Storm","Natural Disaster"],["Terendam","Submerge","Natural Disaster"],["Petir","Thunder","Natural Disaster"],
+  ["Puting beliung","Tornado","Natural Disaster"],["Tsunami","Tsunami","Natural Disaster"],["Topan","Typhoon","Natural Disaster"],
+  ["Nekat mencoba","Venture","Natural Disaster"],["Letusan gunung berapi","Volcanic eruption","Natural Disaster"],["Puting beliung air","Waterspout","Natural Disaster"],
+  ["Angin","Wind","Natural Disaster"]
+];
+const M2_TAG_DAY = {
+  "Small Talk":1,"Social Media":2,"Our Mind":3,"Irregular Verbs 1 (M2)":4,"Irregular Verbs 1 (M2) (V1-V2-V3)":4,
+  "Crime":5,"Health":6,"Performance":7,"Irregular Verbs 2 (M2)":8,"Irregular Verbs 2 (M2) (V1-V2-V3)":8,
+  "Vacation":9,"Debate and Discussion":10,"Tour Guide":11,"Irregular Verbs 3 (M2)":12,"Irregular Verbs 3 (M2) (V1-V2-V3)":12,
+  "Occupations":13,"Environment":14,"Natural Disaster":15,"Irregular Verbs 4 (M2)":16,"Irregular Verbs 4 (M2) (V1-V2-V3)":16
+};
+const M2_DAY_TITLES = {
+  1:"Small Talk",2:"Social Media",3:"Our Mind",4:"Irregular Verbs 1",5:"Crime",6:"Health",7:"Performance",
+  8:"Irregular Verbs 2",9:"Vacation",10:"Debate and Discussion",11:"Tour Guide",12:"Irregular Verbs 3",
+  13:"Occupations",14:"Environment",15:"Natural Disaster",16:"Irregular Verbs 4"
+};
+
+/* ================= COMBINE ================= */
+function buildItems(exprRaw, vocabRaw, tagDayMap, month){
+  const rows = exprRaw.concat(vocabRaw);
+  return rows.map(([id,en,tag]) => ({id, en, tag, month, day: tagDayMap[tag] || 0}));
+}
+const M1_ITEMS = buildItems(m1ExprPhrasalRaw, m1VocabRaw, M1_TAG_DAY, 1);
+const M2_ITEMS = buildItems(m2ExprPhrasalRaw, m2VocabRaw, M2_TAG_DAY, 2);
+const ALL = M1_ITEMS.concat(M2_ITEMS);
+const MONTH_DAY_TITLES = {1: M1_DAY_TITLES, 2: M2_DAY_TITLES};
+const MONTH_LABEL = {1:"Bulan 1", 2:"Bulan 2"};
+
+/* ---------------- helpers ---------------- */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function buildOptions(correctItem, pool){
+  const distractorPool = pool.filter(p => p.en !== correctItem.en);
+  const wrongs = shuffle(distractorPool).slice(0,3).map(p=>p.en);
+  const options = shuffle([correctItem.en, ...wrongs]);
+  return options;
+}
+
+/* ---------------- state ---------------- */
+let queue = [];
+let roundMissed = [];
+let idx = 0;
+let timerInterval = null;
+let timeLeft = 10;
+let roundNumber = 0;
+let totalMissedFirstPass = 0;
+let answered = false;
+let timedMode = true;
+let quizType = 'mc'; // 'mc' | 'match' | 'essay'
+let scope = 'all';    // 'all' (gabungan Bulan 1+2) | 'day' (per hari, pilih bulan dulu)
+let selectedMonth = 1;
+let selectedDay = 1;
+let activePool = ALL; // the pool actually being quizzed right now
+
+/* matching-mode state */
+const BATCH_SIZE = 6;
+let matchBatches = [];
+let matchBatchIndex = 0;
+let matchLeft = [];
+let matchRight = [];
+let matchedIds = new Set();
+let selectedLeftIdx = null;
+let matchRoundMissedIds = new Set();
+
+const card = document.getElementById('card');
+const statusVal = document.getElementById('statusVal');
+
+function currentPool(){
+  if(scope === 'day'){
+    return ALL.filter(it => it.month === selectedMonth && it.day === selectedDay);
+  }
+  return ALL; // gabungan bulan 1 + 2
+}
+
+function startMainQuiz(pool){
+  activePool = pool;
+  queue = shuffle(pool);
+  roundMissed = [];
+  idx = 0;
+  roundNumber = 0;
+  statusVal.textContent = "OPEN BOOK";
+  renderQuestion();
+}
+
+function startRetryRound(missedItems){
+  queue = shuffle(missedItems);
+  roundMissed = [];
+  idx = 0;
+  roundNumber += 1;
+  statusVal.textContent = "REVIEW " + roundNumber;
+  renderQuestion();
+}
+
+function dayGridHtml(){
+  const titles = MONTH_DAY_TITLES[selectedMonth];
+  let html = '<div class="day-grid">';
+  for(let d=1; d<=16; d++){
+    const title = titles[d];
+    const count = ALL.filter(it=>it.month===selectedMonth && it.day===d).length;
+    const activeCls = selectedDay===d ? 'active' : '';
+    html += `<button class="day-btn ${activeCls}" data-day="${d}" type="button">
+      <div class="dnum">DAY ${d}</div>
+      <div class="dtitle">${title}</div>
+      <div class="dcount">${count} soal</div>
+    </button>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderIntro(){
+  statusVal.textContent = "OPEN BOOK";
+  const scopeDesc = scope === 'day'
+    ? `Kamu akan latihan khusus <b>${MONTH_LABEL[selectedMonth]} · Day ${selectedDay} — ${MONTH_DAY_TITLES[selectedMonth][selectedDay]}</b> (${ALL.filter(it=>it.month===selectedMonth && it.day===selectedDay).length} soal).`
+    : `Kamu akan lihat soal gabungan dari <b>seluruh 32 hari (Bulan 1 & Bulan 2)</b> (${ALL.length} soal), diacak.`;
+
+  card.innerHTML = `
+    <div class="center-stack">
+      <div class="section-tag">32 HARI · ${ALL.length} SOAL (VOCABULARY + EXPRESSIONS + PHRASAL VERBS + IRREGULAR VERBS)</div>
+      <h1 class="intro-title">Rekap Bulan 1 & 2 — siap mulai?</h1>
+      <p class="intro-desc">Kamu akan lihat kata/kalimat dalam <b>Bahasa Indonesia</b>, lalu cocokkan dengan <b>Bahasa Inggris</b> yang benar (untuk kata kerja, jawabannya berupa 3 bentuk: dasar – lampau – partisipel). Soal yang salah akan diulang di akhir sesi sampai semua benar.</p>
+
+      <div class="mode-row">
+        <button class="mode-btn ${scope==='all' ? 'active' : ''}" id="scopeAllBtn" type="button">📚 Gabungan (Bulan 1+2)</button>
+        <button class="mode-btn ${scope==='day' ? 'active' : ''}" id="scopeDayBtn" type="button">🗓 Per Hari</button>
+      </div>
+      ${scope==='day' ? `
+        <div class="mode-row">
+          <button class="mode-btn month-btn ${selectedMonth===1 ? 'active' : ''}" id="monthOneBtn" type="button">Bulan 1</button>
+          <button class="mode-btn month-btn ${selectedMonth===2 ? 'active' : ''}" id="monthTwoBtn" type="button">Bulan 2</button>
+        </div>
+        ${dayGridHtml()}
+      ` : ''}
+      <p class="intro-desc" style="font-size:12px;">${scopeDesc}</p>
+
+      <div class="mode-row">
+        <button class="mode-btn ${quizType==='mc' ? 'active' : ''}" id="typeMcBtn" type="button">🔤 Pilihan Ganda</button>
+        <button class="mode-btn ${quizType==='match' ? 'active' : ''}" id="typeMatchBtn" type="button">🔗 Penjodohan</button>
+        <button class="mode-btn ${quizType==='essay' ? 'active' : ''}" id="typeEssayBtn" type="button">✍️ Esai</button>
+      </div>
+      <div class="mode-row">
+        <button class="mode-btn ${timedMode ? 'active' : ''}" id="modeTimedBtn" type="button">⏱ Dengan Waktu (10 detik)</button>
+        <button class="mode-btn ${timedMode ? '' : 'active'}" id="modeFreeBtn" type="button">♾ Tanpa Waktu</button>
+      </div>
+      <p class="intro-desc" style="font-size:11px;opacity:0.75;">*Mode waktu berlaku untuk Pilihan Ganda &amp; Esai</p>
+      <button class="btn" id="startBtn">Mulai Rekap →</button>
+
+      <div class="credit-box">
+        <img class="credit-avatar" src="credit-photo.jpg" alt="Muhamad Rifki Maulana Ruhimat">
+        <div class="credit-text">
+          <div class="credit-name">Dibuat oleh Muhamad Rifki Maulana Ruhimat</div>
+          <a class="credit-ig" href="https://instagram.com/rifkimaulana701" target="_blank" rel="noopener">📷 @rifkimaulana701</a>
+          <div class="credit-source">Sumber materi: KILC</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('scopeAllBtn').onclick = ()=>{ scope = 'all'; renderIntro(); };
+  document.getElementById('scopeDayBtn').onclick = ()=>{ scope = 'day'; renderIntro(); };
+
+  if(scope === 'day'){
+    document.getElementById('monthOneBtn').onclick = ()=>{ selectedMonth = 1; selectedDay = 1; renderIntro(); };
+    document.getElementById('monthTwoBtn').onclick = ()=>{ selectedMonth = 2; selectedDay = 1; renderIntro(); };
+    document.querySelectorAll('.day-btn').forEach(btn=>{
+      btn.onclick = ()=>{ selectedDay = parseInt(btn.dataset.day, 10); renderIntro(); };
+    });
+  }
+
+  document.getElementById('typeMcBtn').onclick = ()=>{
+    quizType = 'mc';
+    document.getElementById('typeMcBtn').classList.add('active');
+    document.getElementById('typeMatchBtn').classList.remove('active');
+    document.getElementById('typeEssayBtn').classList.remove('active');
+  };
+  document.getElementById('typeMatchBtn').onclick = ()=>{
+    quizType = 'match';
+    document.getElementById('typeMatchBtn').classList.add('active');
+    document.getElementById('typeMcBtn').classList.remove('active');
+    document.getElementById('typeEssayBtn').classList.remove('active');
+  };
+  document.getElementById('typeEssayBtn').onclick = ()=>{
+    quizType = 'essay';
+    document.getElementById('typeEssayBtn').classList.add('active');
+    document.getElementById('typeMcBtn').classList.remove('active');
+    document.getElementById('typeMatchBtn').classList.remove('active');
+  };
+  document.getElementById('modeTimedBtn').onclick = ()=>{
+    timedMode = true;
+    document.getElementById('modeTimedBtn').classList.add('active');
+    document.getElementById('modeFreeBtn').classList.remove('active');
+  };
+  document.getElementById('modeFreeBtn').onclick = ()=>{
+    timedMode = false;
+    document.getElementById('modeFreeBtn').classList.add('active');
+    document.getElementById('modeTimedBtn').classList.remove('active');
+  };
+  document.getElementById('startBtn').onclick = ()=>{
+    const pool = currentPool();
+    if(quizType === 'mc'){ startMainQuiz(pool); }
+    else if(quizType === 'match'){ startMatchQuiz(pool); }
+    else { startEssayQuiz(pool); }
+  };
+}
+
+function clearTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval = null; } }
+
+function monthBadgeHtml(item){
+  return `<span class="month-badge">${MONTH_LABEL[item.month]}</span>`;
+}
+
+function renderQuestion(){
+  clearTimer();
+  answered = false;
+  if(idx >= queue.length){ finishRound(startRetryRound); return; }
+  const item = queue[idx];
+  const options = buildOptions(item, activePool);
+  timeLeft = 10;
+
+  const dotsHtml = queue.map((_,i)=>{
+    let cls = 'dot';
+    if(i < idx) cls += ' done';
+    else if(i === idx) cls += ' current';
+    return `<span class="${cls}"></span>`;
+  }).join('');
+
+  card.innerHTML = `
+    <div class="reset-row"><button class="reset-btn" id="resetBtn">↺ Reset</button></div>
+    <div class="progress-row">
+      <span>${roundNumber===0 ? 'SOAL' : 'ULANGI'} ${idx+1} / ${queue.length}</span>
+      <div class="dots">${dotsHtml}</div>
+    </div>
+    ${timedMode ? `
+    <div class="timer-wrap">
+      <div class="flap mono" id="flapTime">${timeLeft}</div>
+      <div class="timer-bar-bg"><div class="timer-bar" id="timerBar"></div></div>
+    </div>` : ''}
+    <div class="section-tag">${item.tag}</div>${monthBadgeHtml(item)}
+    <div class="question">Terjemahkan ke Bahasa Inggris:</div>
+    <div class="question-word">"${item.id}"</div>
+    <div class="options" id="optionsWrap">
+      ${options.map((opt,i)=>`
+        <button class="opt" data-val="${opt.replace(/"/g,'&quot;')}">
+          <span class="letter">${String.fromCharCode(65+i)}</span>
+          <span>${opt}</span>
+        </button>
+      `).join('')}
+    </div>
+  `;
+
+  document.getElementById('resetBtn').onclick = ()=>{ clearTimer(); renderIntro(); };
+
+  document.querySelectorAll('#optionsWrap .opt').forEach(btn=>{
+    btn.addEventListener('click', ()=> handleAnswer(btn.dataset.val, item));
+  });
+
+  if(timedMode){ startTimer(()=> handleAnswer(null, item)); }
+}
+
+function startTimer(onTimeout){
+  const flap = document.getElementById('flapTime');
+  const bar = document.getElementById('timerBar');
+  timerInterval = setInterval(()=>{
+    timeLeft -= 1;
+    if(flap) flap.textContent = timeLeft;
+    if(bar) bar.style.width = (timeLeft/10*100)+'%';
+    if(timeLeft <= 3){
+      if(flap) flap.classList.add('low');
+      if(bar) bar.classList.add('low');
+    }
+    if(timeLeft <= 0){
+      clearTimer();
+      onTimeout();
+    }
+  },1000);
+}
+
+function handleAnswer(selected, item){
+  if(answered) return;
+  answered = true;
+  clearTimer();
+
+  const isCorrect = selected === item.en;
+  document.querySelectorAll('#optionsWrap .opt').forEach(btn=>{
+    btn.disabled = true;
+    if(btn.dataset.val === item.en){
+      btn.classList.add('correct');
+    } else if(btn.dataset.val === selected && !isCorrect){
+      btn.classList.add('wrong');
+    }
+  });
+
+  if(!isCorrect){ roundMissed.push(item); }
+
+  setTimeout(()=>{
+    idx += 1;
+    renderQuestion();
+  }, 900);
+}
+
+function finishRound(retryFn){
+  clearTimer();
+  if(roundNumber === 0){ totalMissedFirstPass = roundMissed.length; }
+
+  if(roundMissed.length === 0){ renderAllCorrect(); return; }
+
+  const missedCount = roundMissed.length;
+  statusVal.textContent = "REVISIT";
+  card.innerHTML = `
+    <div class="center-stack">
+      <div class="section-tag" style="background:var(--red);color:#FFF9EC;">${missedCount} SALAH</div>
+      <h1 class="intro-title">Hampir khatam!</h1>
+      <p class="intro-desc">Kamu salah <b>${missedCount}</b> soal. Kamu akan diberi <b>${missedCount} kesempatan ulang</b> (khusus soal yang salah) sampai semua benar.</p>
+      <div class="missed-list">
+        ${roundMissed.map(m=>`<div class="missed-item"><span class="id">${m.id}</span><span class="ans">${m.en}</span></div>`).join('')}
+      </div>
+      <button class="btn" id="retryBtn">Ulangi Soal yang Salah →</button>
+    </div>
+  `;
+  document.getElementById('retryBtn').onclick = ()=> retryFn(roundMissed);
+}
+
+function renderAllCorrect(){
+  const scopeLabel = scope === 'day'
+    ? `${MONTH_LABEL[selectedMonth]} · Day ${selectedDay} — ${MONTH_DAY_TITLES[selectedMonth][selectedDay]}`
+    : 'seluruh 32 hari (Bulan 1 & Bulan 2)';
+  statusVal.textContent = "KHATAM ✓";
+  card.innerHTML = `
+    <div class="center-stack">
+      <div class="section-tag" style="background:var(--green);color:#fff;">SEMUA BENAR</div>
+      <h1 class="intro-title">Selesai 🎉</h1>
+      <p class="intro-desc">Kamu sudah menjawab benar seluruh ${activePool.length} soal dari ${scopeLabel}.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="num">${activePool.length}</div><div class="lab">Total Soal</div></div>
+        <div class="stat"><div class="num">${totalMissedFirstPass}</div><div class="lab">Salah di Awal</div></div>
+        <div class="stat"><div class="num">${roundNumber}</div><div class="lab">Ronde Ulang</div></div>
+      </div>
+      <button class="btn ghost" id="restartBtn">Ulangi dari Awal</button>
+    </div>
+  `;
+  document.getElementById('restartBtn').onclick = renderIntro;
+}
+
+/* ---------------- MATCHING MODE ---------------- */
+function buildMatchBatches(items){
+  const shuffled = shuffle(items);
+  const batches = [];
+  for(let i=0;i<shuffled.length;i+=BATCH_SIZE){
+    batches.push(shuffled.slice(i, i+BATCH_SIZE));
+  }
+  return batches;
+}
+
+function startMatchQuiz(pool){
+  activePool = pool;
+  matchBatches = buildMatchBatches(pool);
+  matchBatchIndex = 0;
+  matchRoundMissedIds = new Set();
+  roundNumber = 0;
+  statusVal.textContent = "OPEN BOOK";
+  renderMatchBatch();
+}
+
+function startMatchRetry(missedItems){
+  matchBatches = buildMatchBatches(missedItems);
+  matchBatchIndex = 0;
+  matchRoundMissedIds = new Set();
+  roundNumber += 1;
+  statusVal.textContent = "REVIEW " + roundNumber;
+  renderMatchBatch();
+}
+
+function renderMatchBatch(){
+  if(matchBatchIndex >= matchBatches.length){
+    finishMatchRound();
+    return;
+  }
+  const batch = matchBatches[matchBatchIndex];
+  matchLeft = batch;
+  matchRight = shuffle(batch);
+  matchedIds = new Set();
+  selectedLeftIdx = null;
+  renderMatchUI();
+}
+
+function matchButtonHtml(item, side, i){
+  const label = side==='left' ? item.id : item.en;
+  return `<button class="match-item" data-side="${side}" data-idx="${i}">${label}</button>`;
+}
+
+function renderMatchUI(){
+  card.innerHTML = `
+    <div class="reset-row"><button class="reset-btn" id="resetBtn">↺ Reset</button></div>
+    <div class="progress-row">
+      <span>${roundNumber===0 ? 'BABAK' : 'ULANGI'} ${matchBatchIndex+1} / ${matchBatches.length}</span>
+      <span class="mono">${matchedIds.size}/${matchLeft.length} cocok</span>
+    </div>
+    <div class="section-tag">PENJODOHAN</div>
+    <div class="question">Cocokkan Bahasa Indonesia dengan Bahasa Inggris:</div>
+    <div class="question-word" style="font-size:15px;font-weight:600;margin-bottom:14px;color:var(--accent-dim);font-family:'Nunito',sans-serif;">Pilih satu kata di kiri, lalu pasangannya di kanan.</div>
+    <div class="match-grid">
+      <div class="match-col">${matchLeft.map((it,i)=>matchButtonHtml(it,'left',i)).join('')}</div>
+      <div class="match-col">${matchRight.map((it,i)=>matchButtonHtml(it,'right',i)).join('')}</div>
+    </div>
+  `;
+  document.getElementById('resetBtn').onclick = ()=>{ clearTimer(); renderIntro(); };
+  document.querySelectorAll('.match-item').forEach(btn=>{
+    btn.addEventListener('click', ()=> handleMatchClick(btn));
+  });
+}
+
+function handleMatchClick(btn){
+  const side = btn.dataset.side;
+  const i = parseInt(btn.dataset.idx, 10);
+
+  if(side === 'left'){
+    if(btn.disabled) return;
+    document.querySelectorAll('.match-item[data-side="left"]').forEach(b=>b.classList.remove('selected'));
+    selectedLeftIdx = i;
+    btn.classList.add('selected');
+    return;
+  }
+
+  if(btn.disabled) return;
+  if(selectedLeftIdx === null) return;
+
+  const leftItem = matchLeft[selectedLeftIdx];
+  const rightItem = matchRight[i];
+  const leftBtn = document.querySelector(`.match-item[data-side="left"][data-idx="${selectedLeftIdx}"]`);
+
+  if(leftItem.en === rightItem.en){
+    matchedIds.add(leftItem.id);
+    if(leftBtn){ leftBtn.classList.remove('selected'); leftBtn.classList.add('correct'); leftBtn.disabled = true; }
+    btn.classList.add('correct'); btn.disabled = true;
+    selectedLeftIdx = null;
+    const progressEl = document.querySelector('.progress-row .mono');
+    if(progressEl) progressEl.textContent = `${matchedIds.size}/${matchLeft.length} cocok`;
+    if(matchedIds.size === matchLeft.length){
+      setTimeout(()=>{ matchBatchIndex += 1; renderMatchBatch(); }, 550);
+    }
+  } else {
+    matchRoundMissedIds.add(leftItem.id);
+    if(leftBtn) leftBtn.classList.add('wrong');
+    btn.classList.add('wrong');
+    setTimeout(()=>{
+      if(leftBtn) leftBtn.classList.remove('wrong','selected');
+      btn.classList.remove('wrong');
+      selectedLeftIdx = null;
+    }, 550);
+  }
+}
+
+function finishMatchRound(){
+  if(roundNumber === 0){ totalMissedFirstPass = matchRoundMissedIds.size; }
+
+  if(matchRoundMissedIds.size === 0){ renderAllCorrect(); return; }
+
+  const missedItems = activePool.filter(it => matchRoundMissedIds.has(it.id));
+  const missedCount = missedItems.length;
+  statusVal.textContent = "REVISIT";
+  card.innerHTML = `
+    <div class="center-stack">
+      <div class="section-tag" style="background:var(--red);color:#FFF9EC;">${missedCount} SALAH</div>
+      <h1 class="intro-title">Hampir khatam!</h1>
+      <p class="intro-desc">Kamu salah <b>${missedCount}</b> pasangan. Kamu akan diberi <b>${missedCount} kesempatan ulang</b> (khusus soal yang salah) sampai semua benar.</p>
+      <div class="missed-list">
+        ${missedItems.map(m=>`<div class="missed-item"><span class="id">${m.id}</span><span class="ans">${m.en}</span></div>`).join('')}
+      </div>
+      <button class="btn" id="retryBtn">Ulangi Soal yang Salah →</button>
+    </div>
+  `;
+  document.getElementById('retryBtn').onclick = ()=> startMatchRetry(missedItems);
+}
+
+/* ---------------- ESSAY MODE ---------------- */
+function normalizeAnswer(s){
+  return s
+    .toLowerCase()
+    .trim()
+    .replace(/[.,!?;:'"]/g, '')
+    .replace(/\s+/g, ' ');
+}
+
+function startEssayQuiz(pool){
+  activePool = pool;
+  queue = shuffle(pool);
+  roundMissed = [];
+  idx = 0;
+  roundNumber = 0;
+  statusVal.textContent = "OPEN BOOK";
+  renderEssayQuestion();
+}
+
+function startEssayRetry(missedItems){
+  queue = shuffle(missedItems);
+  roundMissed = [];
+  idx = 0;
+  roundNumber += 1;
+  statusVal.textContent = "REVIEW " + roundNumber;
+  renderEssayQuestion();
+}
+
+function renderEssayQuestion(){
+  clearTimer();
+  answered = false;
+  if(idx >= queue.length){
+    finishRound(startEssayRetry);
+    return;
+  }
+  const item = queue[idx];
+  timeLeft = 10;
+
+  const dotsHtml = queue.map((_,i)=>{
+    let cls = 'dot';
+    if(i < idx) cls += ' done';
+    else if(i === idx) cls += ' current';
+    return `<span class="${cls}"></span>`;
+  }).join('');
+
+  card.innerHTML = `
+    <div class="reset-row"><button class="reset-btn" id="resetBtn">↺ Reset</button></div>
+    <div class="progress-row">
+      <span>${roundNumber===0 ? 'SOAL' : 'ULANGI'} ${idx+1} / ${queue.length}</span>
+      <div class="dots">${dotsHtml}</div>
+    </div>
+    ${timedMode ? `
+    <div class="timer-wrap">
+      <div class="flap mono" id="flapTime">${timeLeft}</div>
+      <div class="timer-bar-bg"><div class="timer-bar" id="timerBar"></div></div>
+    </div>` : ''}
+    <div class="section-tag">${item.tag}</div>${monthBadgeHtml(item)}
+    <div class="question">Ketik terjemahan Bahasa Inggris:</div>
+    <div class="question-word">"${item.id}"</div>
+    <div class="essay-wrap">
+      <input type="text" id="essayInput" class="essay-input" placeholder="Ketik jawabanmu di sini..." autocomplete="off" autocapitalize="off" spellcheck="false" />
+      <button class="btn" id="essaySubmitBtn" style="width:100%;">Kirim Jawaban →</button>
+      <div id="essayFeedback"></div>
+    </div>
+  `;
+
+  document.getElementById('resetBtn').onclick = ()=>{ clearTimer(); renderIntro(); };
+
+  const input = document.getElementById('essayInput');
+  input.focus();
+  input.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter'){ e.preventDefault(); submitEssay(item, false); }
+  });
+  document.getElementById('essaySubmitBtn').addEventListener('click', ()=> submitEssay(item, false));
+
+  if(timedMode){ startTimer(()=> submitEssay(item, true)); }
+}
+
+function submitEssay(item, isTimeout){
+  if(answered) return;
+  answered = true;
+  clearTimer();
+
+  const input = document.getElementById('essayInput');
+  const rawVal = isTimeout ? '' : (input ? input.value : '');
+  const isCorrect = !isTimeout && normalizeAnswer(rawVal).length > 0 && normalizeAnswer(rawVal) === normalizeAnswer(item.en);
+
+  if(input){ input.disabled = true; input.classList.add(isCorrect ? 'correct' : 'wrong'); }
+  const submitBtn = document.getElementById('essaySubmitBtn');
+  if(submitBtn) submitBtn.disabled = true;
+
+  const feedback = document.getElementById('essayFeedback');
+  if(feedback){
+    feedback.innerHTML = isCorrect
+      ? `<div class="essay-feedback correct">✓ Benar! — ${item.en}</div>`
+      : `<div class="essay-feedback wrong">✕ ${isTimeout ? 'Waktu habis.' : 'Kurang tepat.'} Jawaban: <b>${item.en}</b></div>`;
+  }
+
+  if(!isCorrect){ roundMissed.push(item); }
+
+  setTimeout(()=>{
+    idx += 1;
+    renderEssayQuestion();
+  }, 1200);
+}
+
+renderIntro();
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
